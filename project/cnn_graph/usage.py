@@ -8,16 +8,22 @@ import networkx as nx
 # %matplotlib inline
 
 print("Imported")
-d = 100  # Dimensionality.
-n = 10000  # Number of samples.
+d = 5  # Dimensionality.
+n = 100  # Number of samples.
+# number of clusters in the graph
 c = 5  # Number of feature communities.
 
 # Data matrix, structured in communities (feature-wise).
+# generate 1000000 floats from 0 to 1.
+# X is a n length array consisting of d length arrays = nd 2d array
 X = np.random.normal(0, 1, (n, d)).astype(np.float32)
+# Return evenly spaced numbers over a specified interval 20 times.
 X += np.linspace(0, 1, c).repeat(d // c)
 
-# Noisy non-linear target.
+
+# Noisy non-linear target. w is an array of d floats [0,0.02]
 w = np.random.normal(0, .02, d)
+# t = wX + b, a n length array to determine which class to put the graphs in.
 t = X.dot(w) + np.random.normal(0, .001, n)
 t = np.tanh(t)
 
@@ -28,7 +34,6 @@ y[t < t.mean() - 0.4 * t.std()] = 2
 print('Class imbalance: ', np.unique(y, return_counts=True)[1])
 
 # Then split this dataset into training, validation and testing sets.
-
 n_train = n // 2
 n_val = n // 10
 
@@ -40,86 +45,75 @@ y_train = y[:n_train]
 y_val = y[n_train:n_train + n_val]
 y_test = y[n_train + n_val:]
 
-
-print("Done")
-
-#
-dist, idx = graph.distance_scipy_spatial(X_train.T, k=10, metric='euclidean')
+dist, idx = graph.distance_scipy_spatial(X_train.T, k=5, metric='euclidean')
+print(dist)
 A = graph.adjacency(dist, idx).astype(np.float32)
 
+print(A.shape, type(A))
 assert A.shape == (d, d)
 print('d = |V| = {}, k|V| < |E| = {}'.format(d, A.nnz))
-print(A)
-
-g = nx.to_networkx_graph(A)
-nx.draw(g)
-plt.savefig('./graph2.png')
-
-# #
-# dist, idx = graph.distance_scipy_spatial(X_train.T, k=10, metric='euclidean')
-# A = graph.adjacency(dist, idx).astype(np.float32)
-#
-# assert A.shape == (d, d)
-# print('d = |V| = {}, k|V| < |E| = {}'.format(d, A.nnz))
-# # plt.spy(A, markersize=2, color='black');
 # print(A)
-# #
+
+# g = nx.to_networkx_graph(A)
+# nx.draw(g)
+# plt.savefig("./graph2.png")
+
+
+graphs, perm = coarsening.coarsen(A, levels=3, self_connections=False)
+
+X_train = coarsening.perm_data(X_train, perm)
+X_val = coarsening.perm_data(X_val, perm)
+X_test = coarsening.perm_data(X_test, perm)
+# Xtrain type is <class 'numpy.ndarray'>
+L = [graph.laplacian(A, normalized=True) for A in graphs]
+
+
+params = dict()
+params['dir_name']       = 'demo'
+params['num_epochs']     = 40
+params['batch_size']     = 100
+params['eval_frequency'] = 200
+
+# Building blocks.
+params['filter']         = 'chebyshev5'
+params['brelu']          = 'b1relu'
+params['pool']           = 'apool1'
+
+# Number of classes.
+C = y.max() + 1
+assert C == np.unique(y).size
+
+# Architecture.
+params['F']              = [32, 64]  # Number of graph convolutional filters.
+params['K']              = [20, 20]  # Polynomial orders.
+params['p']              = [4, 2]    # Pooling sizes.
+params['M']              = [512, C]  # Output dimensionality of fully connected layers.
+
+# Optimization.
+params['regularization'] = 5e-4
+params['dropout']        = 1
+params['learning_rate']  = 1e-3
+params['decay_rate']     = 0.95
+params['momentum']       = 0.9
+params['decay_steps']    = n_train / params['batch_size']
+
+
+
+model = models.cgcnn(L, **params)
+accuracy, loss, t_step = model.fit(X_train, y_train, X_val, y_val)
+
+
+# fig, ax1 = plt.subplots(figsize=(15, 5))
+# ax1.plot(accuracy, 'b.-')
+# ax1.set_ylabel('validation accuracy', color='b')
+# ax2 = ax1.twinx()
+# ax2.plot(loss, 'g.-')
+# ax2.set_ylabel('training loss', color='g')
+# plt.show()
 #
-# graphs, perm = coarsening.coarsen(A, levels=3, self_connections=False)
-#
-# X_train = coarsening.perm_data(X_train, perm)
-# X_val = coarsening.perm_data(X_val, perm)
-# X_test = coarsening.perm_data(X_test, perm)
-#
-# L = [graph.laplacian(A, normalized=True) for A in graphs]
-# # graph.plot_spectrum(L)
-#
-# params = dict()
-# params['dir_name']       = 'demo'
-# params['num_epochs']     = 40
-# params['batch_size']     = 100
-# params['eval_frequency'] = 200
-#
-# # Building blocks.
-# params['filter']         = 'chebyshev5'
-# params['brelu']          = 'b1relu'
-# params['pool']           = 'apool1'
-#
-# # Number of classes.
-# C = y.max() + 1
-# assert C == np.unique(y).size
-#
-# # Architecture.
-# params['F']              = [32, 64]  # Number of graph convolutional filters.
-# params['K']              = [20, 20]  # Polynomial orders.
-# params['p']              = [4, 2]    # Pooling sizes.
-# params['M']              = [512, C]  # Output dimensionality of fully connected layers.
-#
-# # Optimization.
-# params['regularization'] = 5e-4
-# params['dropout']        = 1
-# params['learning_rate']  = 1e-3
-# params['decay_rate']     = 0.95
-# params['momentum']       = 0.9
-# params['decay_steps']    = n_train / params['batch_size']
-#
-#
-#
-# model = models.cgcnn(L, **params)
-# accuracy, loss, t_step = model.fit(X_train, y_train, X_val, y_val)
-#
-#
-# # fig, ax1 = plt.subplots(figsize=(15, 5))
-# # ax1.plot(accuracy, 'b.-')
-# # ax1.set_ylabel('validation accuracy', color='b')
-# # ax2 = ax1.twinx()
-# # ax2.plot(loss, 'g.-')
-# # ax2.set_ylabel('training loss', color='g')
-# # plt.show()
-#
-#
-# print('Time per step: {:.2f} ms'.format(t_step*1000))
-#
-#
-# res = model.evaluate(X_test, y_test)
-# print(res[0])
+
+print('Time per step: {:.2f} ms'.format(t_step*1000))
+
+
+res = model.evaluate(X_test, y_test)
+print(res[0])

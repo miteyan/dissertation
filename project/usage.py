@@ -5,8 +5,8 @@ matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
-# %matplotlib inline
 
+# %matplotlib inline
 print("Imported")
 
 d = 100  # Dimensionality.
@@ -31,7 +31,6 @@ y[t < t.mean() - 0.4 * t.std()] = 2
 print('Class imbalance: ', np.unique(y, return_counts=True)[1])
 
 # Then split this dataset into training, validation and testing sets.
-
 n_train = n // 2
 n_val = n // 10
 
@@ -42,7 +41,6 @@ X_test = X[n_train + n_val:]
 y_train = y[:n_train]
 y_val = y[n_train:n_train + n_val]
 y_test = y[n_train + n_val:]
-
 
 def show_graph(adjacency_matrix):
     rows, cols = np.where(adjacency_matrix == 1)
