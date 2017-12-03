@@ -1,10 +1,8 @@
 import time
-import importlib
-from graph_creation.visualization import Visualizer
-from graph_creation.grid import *
-from eda import *
+
 # from clustering import Cluster
 from graph_creation.sna import SNA
+from graph_creation.visualization import Visualizer
 
 # code to read the data from hdf5 format
 # and parse them into networkx graphs

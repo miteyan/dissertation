@@ -2,16 +2,29 @@ import tensorflow as tf
 import numpy as np
 
 # number of features
-num_features = 26
+num_features = 25
 # number of target labels
 num_labels = 2
 # learning rate (alpha)
-learning_rate = 0.01
+learning_rate = 0.05
 
-test = "/var/storage/miteyan/Dissertation/project/data/genderdata/test"
-train = "/var/storage/miteyan/Dissertation/project/data/genderdata/train"
-valid = "/var/storage/miteyan/Dissertation/project/data/genderdata/valid"
+test = "/var/storage/miteyan/Dissertation/project/data/month_datasets/test.csv"
+train = "/var/storage/miteyan/Dissertation/project/data/month_datasets/train.csv"
+valid = "/var/storage/miteyan/Dissertation/project/data/month_datasets/valid.csv"
 
+def get_array(file):
+    arr = []
+    with open(file, encoding='utf-16') as f:
+        read_data = f.read()
+        for line in read_data.splitlines():
+            features = [np.float32(x) for x in line.split(",")]
+
+            arr.append(features)
+    f.close()
+    return np.array(arr)
+
+
+get_array(valid)
 def get_labels(array):
     x = np.zeros(shape=(len(array), 2))
     for i in range(0,len(array)):
@@ -23,17 +36,16 @@ def get_labels(array):
 
 
 # 2D array of labels and features
-test_dataset = np.genfromtxt(test, delimiter='\t').astype(np.float32)
+test_dataset = get_array(test)
 test_labels = get_labels(test_dataset)
 test_dataset = test_dataset[:, 1:]
 
-train_dataset = np.genfromtxt(train, delimiter='\t').astype(np.float32)
+train_dataset = get_array(train)
 train_labels = get_labels(train_dataset)
 train_dataset = train_dataset[:, 1:]
 train_size = len(train_dataset)
 
-
-valid_dataset = np.genfromtxt(valid, delimiter='\t').astype(np.float32)
+valid_dataset = get_array(valid)
 valid_labels = get_labels(valid_dataset)
 valid_dataset = valid_dataset[:, 1:]
 
