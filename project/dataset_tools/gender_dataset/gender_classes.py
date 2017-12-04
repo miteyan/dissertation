@@ -55,9 +55,6 @@ with open(file, 'rt', encoding="UTF8") as csvfile:
 
     ages = age7+age6+age5+age4+age3+age2+age1
     genders = male+female
-    print("uid\tmale f\t12\t18\t30\t40\t50\t65\t65+\tages")
-
-    print(('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}'.format(count, male, female , age1, age2, age3, age4, age5, age6, age7, age8, ages)))
 
     print(class1)
     print(class2)
