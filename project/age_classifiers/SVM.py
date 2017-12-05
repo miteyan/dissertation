@@ -38,10 +38,10 @@ def split_train_test_valid(array, test, valid):
 def get_labels(array):
     x = np.zeros(shape=(len(array), 1))
     for i in range(0,len(array)):
-        if array[i][0] == 0:
-            x[i] = 0
-        else:
+        if array[i][0] > 0:
             x[i] = 1
+        else:
+            x[i] = 0
     return x
 
 # 2D array of labels and features

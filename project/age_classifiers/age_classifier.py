@@ -39,7 +39,7 @@ def split_train_test_valid(array, test, valid):
 def get_labels(array):
     x = np.zeros(shape=(len(array), 2))
     for i in range(0,len(array)):
-        if array[i][0] == 0:
+        if array[i][0] < 0:
             x[i] = np.array([1, 0])
         else:
             x[i] = np.array([0, 1])
