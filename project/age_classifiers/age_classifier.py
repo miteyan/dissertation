@@ -1,13 +1,8 @@
 import tensorflow as tf
 import numpy as np
 from sklearn.feature_selection import VarianceThreshold
+from sklearn.preprocessing import StandardScaler
 
-# number of features
-num_features = 15
-# number of target labels
-num_labels = 2
-# learning rate (alpha)
-learning_rate = 0.05
 
 dataset = "/var/storage/miteyan/Dissertation/project/data/age_datasets/dataset.csv"
 
@@ -20,7 +15,25 @@ def get_array(file):
 
             arr.append(features)
     f.close()
-    return np.array(arr)
+    return arr
+
+
+def scale_array(array):
+    scaler = StandardScaler()
+    return np.float32(scaler.fit_transform(array))
+
+
+def remove_features(array, threshold):
+    if threshold>1 or threshold < 0:
+        raise Exception('Threshold should be within [0,1]')
+    return VarianceThreshold(threshold=(threshold*(1-threshold))).fit_transform(array)
+
+
+def split_train_test_valid(array, test, valid):
+    if test+valid < 1 and test>0 and valid > 0:
+        return np.split(array, [int(1-(test+valid) * len(array)), int((1-valid) * len(array))])
+    else:
+        raise Exception('Train, test, valid percents do not add to 100')
 
 
 def get_labels(array):
@@ -32,18 +45,24 @@ def get_labels(array):
             x[i] = np.array([0, 1])
     return x
 
-sel = VarianceThreshold(threshold=(.95 * (1 - .95)))
 
 # 2D array of labels and features
 data = get_array(dataset)
-
-
-np.random.shuffle(data)
-data = sel.fit_transform(data)
+np.random.shuffle(np.array(data))
+print(data)
+# Scale the data to have a 0 mean
+data = scale_array(data)
+# Remove feature through feature selection that have a low variance of 5% between data
+data = remove_features(data, threshold=0.05)
 data_size = len(data[0])
+# number of features - first column is the label
+num_features = data_size-1
+# number of target labels
+num_labels = 2
+# learning rate (alpha)
+learning_rate = 0.01
 
-train_dataset, test_dataset, valid_dataset = np.split(data, [int(.7 * len(data)), int(.9 * len(data))])
-
+train_dataset, test_dataset, valid_dataset = split_train_test_valid(data, 0.2, 0.1)
 
 test_labels = get_labels(test_dataset)
 test_dataset = test_dataset[:, 1:]
