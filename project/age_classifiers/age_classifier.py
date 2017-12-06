@@ -62,7 +62,7 @@ num_labels = 2
 # learning rate (alpha)
 learning_rate = 0.01
 
-train_dataset, test_dataset, valid_dataset = split_train_test_valid(data, 0.2, 0.1)
+train_dataset, test_dataset, valid_dataset = split_train_test_valid(data, 0.25, 0.25)
 
 test_labels = get_labels(test_dataset)
 test_dataset = test_dataset[:, 1:]

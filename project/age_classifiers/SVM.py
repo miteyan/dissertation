@@ -35,6 +35,10 @@ def split_train_test_valid(array, test, valid):
         raise Exception('Train, test, valid percents do not add to 100')
 
 
+def get_data(file, feature_threshold, test_split, valid_split):
+    return split_train_test_valid(remove_features(scale_array(np.random.shuffle(np.array(get_array(file)))),
+                                                  feature_threshold), test_split, valid_split)
+
 def get_labels(array):
     x = np.zeros(shape=(len(array), 1))
     for i in range(0,len(array)):
@@ -43,6 +47,11 @@ def get_labels(array):
         else:
             x[i] = 0
     return x
+
+def get_labels_and_features(dataset):
+    labels = get_labels(dataset)
+    features = dataset[:, 1:]
+    return labels, features
 
 # 2D array of labels and features
 data = get_array(dataset)
@@ -57,11 +66,10 @@ num_features = data_size-1
 # number of target labels
 num_labels = 2
 # learning rate (alpha)
-learning_rate = 0.01
+learning_rate = 0.05
 
 train_dataset, test_dataset, valid_dataset = split_train_test_valid(data, 0.2, 0.1)
 
-print(test_dataset)
 test_labels = get_labels(test_dataset)
 test_dataset = test_dataset[:, 1:]
 
@@ -75,10 +83,19 @@ train_size = len(train_dataset)
 
 
 clf = svm.SVC()
-print(train_dataset.shape)
-print(train_labels.shape)
-print(np.shape(train_labels))
-
-print(train_labels)
 clf.fit(train_dataset, train_labels)
 
+predictions = clf.predict(test_dataset)
+
+# utility function to calculate accuracy
+def accuracy(predictions, labels):
+    correctly_predicted = 0
+    for i in range(0, len(labels)):
+        if predictions[i] == labels[i]:
+            correctly_predicted += 1
+
+    return correctly_predicted*100/predictions.shape[0]
+
+
+acc = accuracy(predictions, test_labels)
+print(acc)
