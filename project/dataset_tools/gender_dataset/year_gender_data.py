@@ -2,11 +2,11 @@ import random as rd
 import networkx as nx
 import glob
 import csv
-from dataset_tools.feature_extraction import get_features
+from dataset_tools.feature_extraction import  get_features
 
-MONTH_EDGELISTS = '/var/storage/miteyan/Dissertation/project/graph_creation/edgelists_month/*'
-WRITE_FOLDER = '/var/storage/miteyan/Dissertation/project/data/age_datasets/'
-CLASSES = '/var/storage/miteyan/Dissertation/project/data/age_classes/age_classes'
+YEAR_EDGE_LISTS = '/var/storage/sandra/mdc_analysis/mdc_data/lausanne/nkYear/edgelists_year/*'
+WRITE_FOLDER = '/var/storage/miteyan/Dissertation/project/data/genderdata/'
+CLASSES = '/var/storage/miteyan/Dissertation/project/data/gender_classes/genderclasses'
 FILE_NAME = WRITE_FOLDER + "/dataset.csv"
 
 def get_classes(file):
@@ -60,4 +60,4 @@ def create_datasets(input_folder):
                 csvwriter.writerow(features)
                 print(features)
 
-create_datasets(MONTH_EDGELISTS)
+create_datasets(YEAR_EDGE_LISTS)

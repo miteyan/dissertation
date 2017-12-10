@@ -62,7 +62,6 @@ assert A.shape == (d, d)
 print('d = |V| = {}, k|V| < |E| = {}'.format(d, A.nnz))
 # plt.spy(A, markersize=2, color='black');
 print(A)
-#
 
 graphs, perm = coarsening.coarsen(A, levels=3, self_connections=False)
 
