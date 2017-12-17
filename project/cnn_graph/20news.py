@@ -35,7 +35,6 @@ train.clean_text(num='substitute')
 train.vectorize(stop_words='english')
 print(train.show_document(1)[:400])
 
-
 # Remove short documents.
 train.data_info(True)
 wc = train.remove_short_documents(nwords=20, vocab='full')
@@ -50,7 +49,6 @@ def remove_encoded_images(dataset, freq=1e3):
     return wc
 wc = remove_encoded_images(train)
 train.data_info()
-
 
 # Word embedding
 if True:
@@ -70,10 +68,8 @@ train.show_document(1)
 wc = train.remove_short_documents(nwords=5, vocab='selected')
 train.data_info(True)
 
-
 train.normalize(norm='l1')
 train.show_document(1);
-
 
 # Test dataset.
 test = utils.Text20News(data_home=FLAGS.dir_data, subset='test', remove=remove)
@@ -84,7 +80,6 @@ wc = test.remove_short_documents(nwords=5, vocab='selected')
 print('shortest: {}, longest: {} words'.format(wc.min(), wc.max()))
 test.data_info(True)
 test.normalize(norm='l1')
-
 
 if True:
     train_data = train.data.astype(np.float32)
@@ -280,4 +275,3 @@ if False:
     grid_params = {}
     data = (train_data, train_labels, val_data, val_labels, test_data, test_labels)
     utils.grid_search(params, grid_params, *data, model=lambda x: models.cgcnn(L,**x))
-

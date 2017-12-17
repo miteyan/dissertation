@@ -98,7 +98,6 @@ params['momentum']       = 0.9
 params['decay_steps']    = n_train / params['batch_size']
 
 
-
 model = models.cgcnn(L, **params)
 accuracy, loss, t_step = model.fit(X_train, y_train, X_val, y_val)
 
