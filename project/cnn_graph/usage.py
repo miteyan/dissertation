@@ -37,6 +37,8 @@ print('Class imbalance: ', np.unique(y, return_counts=True)[1])
 n_train = n // 2
 n_val = n // 10
 
+print(X)
+
 X_train = X[:n_train]
 X_val = X[n_train:n_train + n_val]
 X_test = X[n_train + n_val:]
@@ -53,11 +55,6 @@ print(A.shape, type(A))
 assert A.shape == (d, d)
 print('d = |V| = {}, k|V| < |E| = {}'.format(d, A.nnz))
 # print(A)
-
-# g = nx.to_networkx_graph(A)
-# nx.draw(g)
-# plt.savefig("./graph2.png")
-
 
 graphs, perm = coarsening.coarsen(A, levels=3, self_connections=False)
 
@@ -101,15 +98,6 @@ params['decay_steps']    = n_train / params['batch_size']
 model = models.cgcnn(L, **params)
 accuracy, loss, t_step = model.fit(X_train, y_train, X_val, y_val)
 
-
-# fig, ax1 = plt.subplots(figsize=(15, 5))
-# ax1.plot(accuracy, 'b.-')
-# ax1.set_ylabel('validation accuracy', color='b')
-# ax2 = ax1.twinx()
-# ax2.plot(loss, 'g.-')
-# ax2.set_ylabel('training loss', color='g')
-# plt.show()
-#
 
 print('Time per step: {:.2f} ms'.format(t_step*1000))
 

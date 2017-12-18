@@ -36,7 +36,7 @@ def remove_features(array, threshold):
 
 
 def split_train_test_valid(array, test, valid):
-    if test+valid < 1 and test>0 and valid > 0:
+    if test+valid < 1 and test >= 0 and valid >= 0:
         return np.split(array, [int(1-(test+valid) * len(array)), int((1-valid) * len(array))])
     else:
         raise Exception('Train, test, valid percents do not add to 100')
@@ -47,11 +47,46 @@ def get_data(file, feature_threshold, test_split, valid_split):
     np.random.shuffle(array)
     return split_train_test_valid(remove_features(scale_array(array), feature_threshold), test_split, valid_split)
 
+def get_all_data(file, feature_threshold):
+    array = get_array(file)
+    np.random.shuffle(array)
+    return remove_features(scale_array(array), feature_threshold)
+
+
+def get_k_fold_validation(file, k):
+    array = get_array(file)
+    l = len(array)
+    print(l)
+    block_size = int(l / k)
+    k_fold_array = []
+    for i in range(0, k):
+        k_fold_array.insert(i,array[i*block_size:(i+1)*block_size])
+    # add remaining to first block
+    for j in range(k*block_size, l):
+        k_fold_array[0].append(array[j])
+    return k_fold_array
+
+
+def get_k_train(array, k_to_exclude):
+    ret = []
+    k = 0
+    for i in range(0, len(array)):
+        if i != k_to_exclude:
+            for j in range(0,len(array[i])):
+                ret[k] = array[i][j]
+                k += 1
+    return ret
+
+
+
+def get_random_test_data(file, split):
+    array = get_array(file)
+    np.random.shuffle(array)
+    return array[:int(len(array)*split)]
+
 
 def get_labels_and_features(dataset):
-    print(dataset)
     labels = get_labels(dataset)
-    print(labels)
     features = dataset[:, 1:]
     return labels, features
 
