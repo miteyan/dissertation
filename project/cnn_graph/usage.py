@@ -20,7 +20,6 @@ X = np.random.normal(0, 1, (n, d)).astype(np.float32)
 # Return evenly spaced numbers over a specified interval 20 times.
 X += np.linspace(0, 1, c).repeat(d // c)
 
-
 # Noisy non-linear target. w is an array of d floats [0,0.02]
 w = np.random.normal(0, .02, d)
 # t = wX + b, a n length array to determine which class to put the graphs in.
@@ -28,6 +27,7 @@ t = X.dot(w) + np.random.normal(0, .001, n)
 t = np.tanh(t)
 
 # # Classification.
+# ndarray of t shape of 0,1,2 classes
 y = np.ones(t.shape, dtype=np.uint8)
 y[t > t.mean() + 0.4 * t.std()] = 0
 y[t < t.mean() - 0.4 * t.std()] = 2

@@ -65,7 +65,7 @@ def get_features(label, G):
     min_degree, max_degree = get_min_max_degrees(degrees)
 
     eccentricity = nx.eccentricity(G)
-    radius, max_radius = get_min_max(eccentricity)
+    radius = get_min_max(eccentricity)
     centre_size = sum(x == radius for x in eccentricity.values())
     mean_eccentricity, var_eccentricity = get_mean_variance(eccentricity)
     average_shortest_path_length = nx.average_shortest_path_length(G)
@@ -73,7 +73,7 @@ def get_features(label, G):
     clustering_coefficient = nx.clustering(G)
     mean_clustering_coefficient, var_clustering_coefficient = get_mean_variance(clustering_coefficient)
     shortest_path_length = nx.shortest_path_length(G)
-    mean_shortest_path_length, var_shortest_path_length, shortest_path, longest_path = \
+    mean_shortest_path_length, var_shortest_path_length = \
         get_shortest_path_length_stats(shortest_path_length)
     betweeness_centrality = nx.betweenness_centrality(G)
     mean_betweeness_centrality, var_betweeness_centrality = get_mean_variance(betweeness_centrality)
@@ -86,6 +86,6 @@ def get_features(label, G):
     pagerank = nx.pagerank(G)
     mean_pagerank, var_pagerank = get_mean_variance(pagerank)
 
-    return [label, nodes, edges, max_degree, density,diameter, radius, max_radius, centre_size, mean_eccentricity, var_eccentricity,average_shortest_path_length, mean_clustering_coefficient, var_clustering_coefficient, mean_betweeness_centrality, var_betweeness_centrality, mean_shortest_path_length, var_shortest_path_length, shortest_path, longest_path, mean_edge_betweeness_centrality, var_node_betweeness_centrality, mean_node_betweeness_centrality, var_node_betweeness_centrality, mean_pagerank, var_pagerank]
+    return [label, nodes, edges, max_degree, density,diameter, radius, centre_size, mean_eccentricity, var_eccentricity, average_shortest_path_length, mean_clustering_coefficient, var_clustering_coefficient, mean_betweeness_centrality, var_betweeness_centrality, mean_shortest_path_length, var_shortest_path_length, mean_edge_betweeness_centrality, var_node_betweeness_centrality, mean_node_betweeness_centrality, var_node_betweeness_centrality, mean_pagerank, var_pagerank]
 
 
