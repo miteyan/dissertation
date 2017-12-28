@@ -146,13 +146,13 @@ flags = tf.app.flags
 FLAGS = flags.FLAGS
 
 # Graphs.
-flags.DEFINE_integer('number_edges', 1, 'Graph: minimum number of edges per vertex.')
+flags.DEFINE_integer('number_edges', 16, 'Graph: minimum number of edges per vertex.')
 flags.DEFINE_string('metric', 'cosine', 'Graph: similarity measure (between features).')
 flags.DEFINE_bool('normalized_laplacian', True, 'Graph Laplacian: normalized.')
 flags.DEFINE_integer('coarsening_levels', 0, 'Number of coarsened graphs.')
 
 flags.DEFINE_string('dir_data', os.path.join('..', 'data', '20news'), 'Directory to store data.')
-flags.DEFINE_integer('val_size', 100, 'Size of the validation set.')
+flags.DEFINE_integer('val_size', 400, 'Size of the validation set.')
 
 
 # Fetch dataset. Scikit-learn already performs some cleaning.
@@ -170,7 +170,7 @@ if True:
 common = {}
 common['dir_name']       = 'nokia/'
 common['num_epochs']     = 80
-common['batch_size']     = 100
+common['batch_size']     = 50
 common['decay_steps']    = len(train_labels) / common['batch_size']
 common['eval_frequency'] = 5 * common['num_epochs']
 common['filter']         = 'chebyshev5'
