@@ -34,7 +34,7 @@ public class DBSCANClusterer {
     private ArrayList<LatLongTime> inputValues = null;
 
     /** cluster maintaining visited points */
-    private HashSet<LatLongTime> visitedPoints = new HashSet<LatLongTime>();
+    private HashSet<LatLongTime> visitedPoints = new HashSet<>();
 
     /**
      * Creates a DBSCAN clusterer instance.
@@ -78,7 +78,7 @@ public class DBSCANClusterer {
         if (collection == null) {
             throw new DBSCANClusteringException("DBSCAN: List of input values is null.");
         }
-        this.inputValues = new ArrayList<LatLongTime>(collection);
+        this.inputValues = new ArrayList<>(collection);
     }
 
     /**
@@ -148,24 +148,20 @@ public class DBSCANClusterer {
         if (inputValues == null) {
             throw new DBSCANClusteringException("DBSCAN: List of input values is null.");
         }
-
         if (inputValues.isEmpty()) {
             throw new DBSCANClusteringException("DBSCAN: List of input values is empty.");
         }
-
         if (inputValues.size() < 2) {
             throw new DBSCANClusteringException("DBSCAN: Less than two input values cannot be clustered. Number of input values: " + inputValues.size());
         }
-
         if (epsilon < 0) {
             throw new DBSCANClusteringException("DBSCAN: Maximum distance of input values cannot be negative. Current value: " + epsilon);
         }
-
         if (minimumNumberOfClusterMembers < 2) {
             throw new DBSCANClusteringException("DBSCAN: Clusters with less than 2 members don't make sense. Current value: " + minimumNumberOfClusterMembers);
         }
 
-        ArrayList<ArrayList<LatLongTime>> resultList = new ArrayList<ArrayList<LatLongTime>>();
+        ArrayList<ArrayList<LatLongTime>> resultList = new ArrayList<>();
         visitedPoints.clear();
 
         ArrayList<LatLongTime> neighbours;
