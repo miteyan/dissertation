@@ -121,75 +121,11 @@ class Cluster(object):
             value.to_csv(join(csv_dir, key), index=False)
         return 
 
-    def time_based_cluster_places(self, time_param = timedelta(minutes=10), dist_param=100):
-        stay_regions = {}
-        options = self.options
-        for key, data in self.data.items():
-            # 1. Get stay points 
-            places = []
-            cl = dict(data.iloc[0]) 
-            cl['datetime_last']=cl['datetime']
-            cl['n_points']=0
-            label=0
-            ploc={}
-            for idx, row in data.iterrows():
-                row=dict(row)
-                if self._distance(cl, row) < dist_param:
-                    cl=add_point_to_cluster(cl, row)
-                    ploc={}
-                else:
-                    if ploc:
-                        if cl['datetime_last'] - cl['datetime']  > time_param:
-                            places.append(cl)
-                        cl={}
-                        cl=ploc 
-                        cl['datetime_last']=ploc['datetime']
-                        cl['n_points']=1
-                        if self._distance(cl, row) < dist_param:
-                            cl=add_point_to_cluster(cl, row)
-                            ploc={}
-                        else:
-                            ploc=row
-                    else:
-                        ploc=row
-
-            # 2. Get stay regions
-            places = pd.DataFrame(places)
-            if not(places.empty) and places.shape[0]>1:
-                places['sr']=-1
-                cond=True    
-                N=[(0,0),(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
-                cnt=-1
-                while (cond):
-                    cnt+=1
-                    l = [(k, len(g.index)) for (k,g) in square_grids(places, gridWidth=square_grid_length, gridHeight=square_grid_length).groupby(['grid', 'sr']) if k[1]==-1 ]
-                    if (l):
-                        g_i = max(l, key=itemgetter(1))[0][0]
-                        for n in N:
-                            k = tuple(sum(t) for t in zip(g_i,n))
-                            k = tuple(map(operator.add, k, (+0.0, +0.0))) # remove -0.0 for the significant places ids
-                            if not(places.loc[places['grid']==k, 'sr'].empty) and (max(places.loc[places['grid']==k, 'sr'])==-1):
-                                places.loc[places['grid']==k, 'sr']=cnt
-                    else:
-                        cond=False
-                merg_cl_seq = places.copy()
-                merg_cl_seq['lat'] = merg_cl_seq['lat']*merg_cl_seq['n_points']/(merg_cl_seq.groupby('sr').n_points.transform('sum'))
-                merg_cl_seq['lat'] = merg_cl_seq.groupby('sr').lat.transform('sum')
-                merg_cl_seq['lon'] = merg_cl_seq['lon']*merg_cl_seq['n_points']/(merg_cl_seq.groupby('sr').n_points.transform('sum'))
-                merg_cl_seq['lon'] = merg_cl_seq.groupby('sr').lon.transform('sum')
-                stay_regions[key] = merg_cl_seq
-                csv_dir =self.options['clusterfolder']+'/'
-                if not os.path.exists(csv_dir):
-                    os.makedirs(csv_dir) 
-                merg_cl_seq.to_csv(join(csv_dir, key ))
-        self.clusters = stay_regions 
-        return stay_regions
-
 
 
     def idiap_time_based_cluster_places(self, time_param = timedelta(minutes=10), dist_param=100, square_grid_length=30):
         stay_regions = {}
-        options = self.options
+        # data.items are the individual user files per time, with location and time data.
         for key, data in self.data.items():
             print('trajectory key : ', key)
 
@@ -198,27 +134,29 @@ class Cluster(object):
             cl = dict(data.iloc[0]) 
             cl['datetime_last']=cl['datetime']
             cl['n_points']=0
-            label=0
             ploc={}
+            # per row in the location file:
             for idx, row in data.iterrows():
                 row=dict(row)
                 if self._distance(cl, row) < dist_param:
-                    cl=add_point_to_cluster(cl, row)
-                    ploc={}
+                    # add to cluster if within specified distance.
+                    cl = add_point_to_cluster(cl, row)
+                    ploc = {}
                 else:
+                    # if dictionary not empty
                     if ploc:
                         if cl['datetime_last'] - cl['datetime']  > time_param:
                             places.append(cl)
-                        cl={}; cl=ploc; 
-                        cl['datetime_last']=ploc['datetime']
-                        cl['n_points']=1
+                        cl = ploc
+                        cl['datetime_last'] = ploc['datetime']
+                        cl['n_points'] = 1
                         if self._distance(cl, row) < dist_param:
-                            cl=add_point_to_cluster(cl, row)
-                            ploc={}
+                            cl = add_point_to_cluster(cl, row)
+                            ploc = {}
                         else:
-                            ploc=row
+                            ploc = row
                     else:
-                        ploc=row
+                        ploc = row
 
             # 2. Get stay regions
             places = pd.DataFrame(places)

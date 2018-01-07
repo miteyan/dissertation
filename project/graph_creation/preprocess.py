@@ -7,7 +7,8 @@ if __name__ == '__main__':
 
     datafolder = "/var/storage/sandra/mdc_analysis/mdc_data/"
     optionsList = [
-        {'datafolder': datafolder, 'dataset': 'full_lausanne', 'datetime': True, 'toLocalTime': True, 'frequency': 'month'},
+        # {'datafolder': datafolder, 'dataset': 'full_lausanne', 'datetime': True, 'toLocalTime': True, 'frequency': 'month'},
+        {'datafolder': datafolder, 'dataset': 'full_lausanne', 'datetime': True, 'toLocalTime': True, 'frequency': 'week'},
     ]
 
     start = time.time()

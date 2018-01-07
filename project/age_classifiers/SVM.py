@@ -59,7 +59,7 @@ np.random.shuffle(np.array(data))
 # Scale the data to have a 0 mean
 data = scale_array(data)
 # Remove feature through feature selection that have a low variance of 5% between data
-data = remove_features(data, threshold=0.05)
+data = remove_features(data, threshold=0.00)
 data_size = len(data[0])
 # number of features - first column is the label
 num_features = data_size-1

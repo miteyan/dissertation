@@ -38,11 +38,9 @@ public class Clustering {
     }
 
     static ArrayList<ClusterNode> getTimeList(ArrayList<ArrayList<LatLongTime>> clusters) {
-        if (clusters.size() == 1) {
-            System.out.println("Only one cluster");
-            throw new IndexOutOfBoundsException("Only one cluster");
-        }
+
         ArrayList<ClusterNode> clusterNodes = new ArrayList<>();
+
         int clusterNo = 0;
         for (ArrayList<LatLongTime> cluster: clusters) {
             for (LatLongTime location: cluster) {
@@ -65,6 +63,9 @@ public class Clustering {
     }
 
     static String createEdgeList(ArrayList<ClusterNode> clusterNodes) {
+        if (clusterNodes.isEmpty()) {
+            return "";
+        }
         int currCluster = clusterNodes.get(0).getCluster();
 
         ArrayList<String> edges = new ArrayList<>();
@@ -82,6 +83,9 @@ public class Clustering {
     }
 
     static String weightEdges(ArrayList<String> edges) {
+        if (edges.isEmpty()) {
+            return "";
+        }
         edges.sort(String::compareToIgnoreCase);
         StringBuilder sb = new StringBuilder();
         double currCount = 1.0;
@@ -116,35 +120,45 @@ public class Clustering {
         return sb.toString();
     }
 
-    private static void cluster(String inFolder, String outFolder) throws DBSCANClusteringException, IOException, ParseException {
+    private static void cluster(String inFolder, String outFolder) throws IOException, ParseException {
         File dir = new File(inFolder);
         File[] directoryListing = dir.listFiles();
-        DistanceMetric distanceMetric = new DistanceMetric();
+
         int minElements = 5;
         int minDistance = 5;//metres
 
         if (directoryListing != null) {
             for (File file : directoryListing) {
-
-                ArrayList<String[]> timeLocations = readCSV(file.getAbsolutePath());
-                ArrayList<LatLongTime> locationTimes = getLocations(timeLocations);
-                DBSCANClusterer dbscanClusterer = new DBSCANClusterer(locationTimes, minElements, minDistance, distanceMetric);
-
-                String edgelist = createEdgeList(
-                        getTimeList(
-                                dbscanClusterer.performClustering()));
                 String filename = new StringBuilder().append(outFolder).append("/").append(file.getName().substring(0, file.getName().length()-4)).toString();
-                writeFile(filename, edgelist);
+                File f = new File(filename);
+                // if file exists:
+                if (!f.exists()) {
 
+                    System.out.println(file.getName());
+                    ArrayList<String[]> timeLocations = readCSV(file.getAbsolutePath());
+                    ArrayList<LatLongTime> locationTimes = getLocations(timeLocations);
+                    DBSCAN dbscanClusterer = new DBSCAN(locationTimes, minElements, minDistance);
+
+                    String edgelist = createEdgeList(
+                            getTimeList(
+                                    dbscanClusterer.performClustering()));
+                    if (!edgelist.isEmpty()) {
+                        writeFile(filename, edgelist);
+                    }
+                } else {
+                    System.out.println("skipping: "+ filename);
+
+                }
             }
         }
     }
 
-    public static void main(String[] args) throws IOException, ParseException, DBSCANClusteringException {
-//        String outfolder = "/var/storage/sandra/mdc_analysis/mdc_data/full_lausanne/nkWeek/week'"
-        String in_folder = "/Users/miteyan/dissertation/project/cluster/src/clustering/data";
-        String out_folder = "/Users/miteyan/dissertation/project/cluster/src/clustering/week_clusters";
-//        ArrayList<String[]> timeLocations = readCSV("/Users/miteyan/dissertation/project/cluster/src/clustering/data");
+    public static void main(String[] args) throws IOException, ParseException {
+        String in_folder = "/var/storage/sandra/mdc_analysis/mdc_data/full_lausanne/nkWeek/week";
+        String out_folder = "/var/storage/miteyan/Dissertation/project/cluster/src/clustering/week_clusters";
+//        String in_folder = "/var/storage/miteyan/Dissertation/project/cluster/src/clustering/data";
+        System.out.println(out_folder);
+        //        ArrayList<String[]> timeLocations = readCSV("/Users/miteyan/dissertation/project/cluster/src/clustering/data");
 //
 //        DistanceMetric distanceMetric = new DistanceMetric();
 //        ArrayList<LatLongTime> locationTimes = getLocations(timeLocations);
@@ -161,6 +175,7 @@ public class Clustering {
 //        System.out.println(edgelist);
 
         cluster(in_folder, out_folder);
+        System.out.println("done");
 //        System.out.println(isSorted(clusterNodes)); true
     }
 

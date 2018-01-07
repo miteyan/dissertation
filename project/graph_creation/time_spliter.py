@@ -2,6 +2,8 @@ from datetime import datetime
 import os.path
 import pandas as pd
 
+# STEP 1, takes the raw dataset data to per user data for each month.
+
 dataset = '/var/storage/sandra/mdc_analysis/mdc_data/nokia_data_full.csv'
 # data = '/var/storage/miteyan/Dissertation/project/data/testlocations/loc'
 folder = "./full_data/"

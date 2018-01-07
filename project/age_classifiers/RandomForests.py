@@ -3,7 +3,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 dataset = "/var/storage/miteyan/Dissertation/project/data/age_datasets/dataset.csv"
 
-train_dataset, test_dataset, valid_dataset = ds.get_data(dataset, 0.05, 0.2, 0.2)
+train_dataset, test_dataset, valid_dataset = ds.get_data(dataset, 0.1, 0.2, 0.2)
 
 train_labels, train_dataset = ds.get_labels_and_features(train_dataset)
 test_labels, test_dataset = ds.get_labels_and_features(test_dataset)
