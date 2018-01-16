@@ -2,7 +2,7 @@ import helper.dataset_functions as ds
 from sklearn.model_selection import KFold
 from sklearn import tree
 
-dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/dataset.csv"
+dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/weekly_dataset.csv"
 
 train_dataset = ds.get_all_data(dataset, 0.05)
 
@@ -14,7 +14,7 @@ kf = KFold(n_splits=k)
 
 sum = 0
 
-batches = 100
+batches = 10
 for i in range(0, batches):
 
     for train_index, test_index in kf.split(X):

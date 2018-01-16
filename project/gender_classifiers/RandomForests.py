@@ -1,7 +1,8 @@
 import helper.dataset_functions as ds
 from sklearn.ensemble import RandomForestClassifier
 
-dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/dataset.csv"
+# dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/weekly_dataset.csv"
+dataset = "/var/storage/miteyan/Dissertation/project/data/age_datasets/week_clustered_dataset.csv"
 
 train_dataset, test_dataset, valid_dataset = ds.get_data(dataset, 0.05, 0.2, 0.2)
 

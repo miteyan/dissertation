@@ -14,15 +14,20 @@ import networkx as nx
 import glob
 import numpy as np
 
-# FOLDER =    '/var/storage/miteyan/Dissertation/project/graph_creation/edgelists_month/*'
-FOLDER  = '/var/storage/sandra/mdc_analysis/mdc_data/lausanne/nkYear/edgelists_year/*'
+# MEDIAN = 65
+# FOLDER = '/var/storage/miteyan/Dissertation/project/graph_creation/edgelists_month/*'
+# FOLDER = '/var/storage/sandra/mdc_analysis/mdc_data/lausanne/nkYear/edgelists_year/*'
+MEDIAN = 50
+FOLDER = '/var/storage/miteyan/Dissertation/project/cluster/src/clustering/week_clusters/*'
+
+
 CLASSES = '/var/storage/miteyan/Dissertation/project/data/gender_classes/genderclasses'
 
 # Get subgraph of a graph G
 def get_subgraph(min_no_nodes, G):
     nodes = nx.number_of_nodes(G)
     if nodes > min_no_nodes:
-        central_nodes = sorted(nx.current_flow_betweenness_centrality(G).items(), key=operator.itemgetter(1))[:min_no_nodes]
+        central_nodes = sorted(nx.degree_centrality(G).items(), key=operator.itemgetter(1))[:min_no_nodes]
         subgraph = [idx for idx, val in central_nodes]
         sg = G.subgraph(subgraph)
         edgelist = nx.to_edgelist(sg)
@@ -32,13 +37,24 @@ def get_subgraph(min_no_nodes, G):
 
 
 # Get subgraph of a graph G
-def get_numpy_subgraph(min_no_nodes, G):
+def get_centrality(min_no_nodes, G):
     nodes = nx.number_of_nodes(G)
     if nodes > min_no_nodes:
-        central_nodes = sorted(nx.current_flow_betweenness_centrality(G).items(), key=operator.itemgetter(1))[:min_no_nodes]
-        subgraph = [idx for idx, val in central_nodes]
-        sg = G.subgraph(subgraph)
-        return nx.to_numpy_array(sg)
+        central_nodes = sorted(nx.degree_centrality(G).items(), key=operator.itemgetter(1))[:min_no_nodes]
+        central_nodes = sorted(central_nodes, key=operator.itemgetter(0))
+        central_nodes = [x[1] for x in central_nodes]
+        print(central_nodes)
+        return np.array(central_nodes)
+#
+# # Get subgraph of a graph G
+# def get_numpy_subgraph(min_no_nodes, G):
+#     nodes = nx.number_of_nodes(G)
+#     if nodes > min_no_nodes:
+#         central_nodes = sorted(nx.current_flow_betweenness_centrality(G).items(), key=operator.itemgetter(1))[
+#                         :min_no_nodes]
+#         subgraph = [idx for idx, val in central_nodes]
+#         sg = G.subgraph(subgraph)
+#         return nx.to_numpy_array(sg)
 
 
 # Get subgraph of a graph G
@@ -49,7 +65,6 @@ def get_scipy_subgraph(min_no_nodes, G):
         subgraph = [idx for idx, val in central_nodes]
         sg = G.subgraph(subgraph)
         return nx.to_scipy_sparse_matrix(sg)
-
 
 def get_classes(file):
     with open(file) as f:
@@ -86,27 +101,42 @@ def create_datasets(input_folder, num_nodes):
     for i in range(0, file_count):
         index = rd.sample(sett, 1)[0]
         sett.remove(index)
-        userid = edge_list_files[index][73:77]
+        # userid = edge_list_files[index][73:77]
+        userid = edge_list_files[index][79:83]
+        print(userid)
         label = get_users_class(userid, classes)
         # filter away graphs without any demographic data in the dataset
         if label == 0 or label == 1:
-            G = nx.read_weighted_edgelist(edge_list_files[index])
-            sg = get_numpy_subgraph(num_nodes, G)
-            sg2 = get_scipy_subgraph(num_nodes, G)
-            if sg is not None:
-                labels.append(label)
-                # print(sg)
-                graphs.append(sg)
-                graphs2.append(sg2)
+            try:
+                G = nx.read_weighted_edgelist(edge_list_files[index])
+                sg = get_centrality(num_nodes, G)
+                sg2 = get_scipy_subgraph(num_nodes, G)
+                if sg is not None:
+                    labels.append(label)
+                    # print(sg)
+                    graphs.append(sg)
+                    graphs2.append(sg2)
+            except nx.NetworkXError:
+                print("Unconnected graph: ", userid)
 
     return np.array(graphs), np.array(graphs2), np.array(labels)
 
 
 def get_data_in_format(data):
-    data_tmp = []
-    for i in range(0, len(data)):
-        data_tmp.append(data[i][0])
-    return scipy.sparse.csr_matrix(np.array(data_tmp))
+    print(len(data))
+    print(len(data[0]))
+    return scipy.sparse.csr_matrix(data)
+
+
+# def get_data_in_format(data):
+#     data_tmp = []
+#     for i in range(0, len(data)):
+#         # need to append an data[i] length array here.
+#         print(data[i])
+#         data_tmp.append(data[i][0])
+#         # sorted order of nodes..
+#     return scipy.sparse.csr_matrix(np.array(data_tmp))
+# return a matrix of |Nodes| x |Features(no of nodes or median)|
 
 
 def split_train_test_valid(array, test, valid):
@@ -116,7 +146,7 @@ def split_train_test_valid(array, test, valid):
         raise Exception('Train, test, valid percents do not add to 100')
 
 
-graphs, graphs2, labels = create_datasets(FOLDER, 65)
+graphs, graphs2, labels = create_datasets(FOLDER, MEDIAN)
 
 # split into train, test, valid
 
@@ -135,11 +165,11 @@ test_labels = labels[int(length/2):int(3*length/4)]
 #
 val_data = graphs[int(3*length/4):]
 val_labels = labels[int(3*length/4):]
-#
+# #
 train_data = get_data_in_format(train_data)
 test_data = get_data_in_format(test_data)
 val_data = get_data_in_format(val_data)
-
+#
 print(val_labels)
 
 flags = tf.app.flags
@@ -160,7 +190,6 @@ remove = ('headers','footers','quotes')  # (), ('headers') or ('headers','footer
 
 
 L = [graph.laplacian(A, normalized=True) for A in graphs2]
-
 
 t_start = time.process_time()
 
@@ -196,4 +225,4 @@ if True:
 
     model = models.cgcnn(L, **params)
 
-    model_perf.test(model, name, params,train_data, train_labels, val_data, val_labels, test_data, test_labels)
+    model_perf.test(model, name, params, train_data, train_labels, val_data, val_labels, test_data, test_labels)

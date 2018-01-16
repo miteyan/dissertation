@@ -323,6 +323,19 @@ $$
 \subsection{Random Forests}
 Random forests are comprised of a multitude of differently constructed decision trees at training time and output the class that is the mode of all the decision tree outputs. Random forests correct the overfitting habit experienced by decision trees\cite{treeoverfit}. They prevent overfitting by constructing many different decision trees using only certain subset of the features vector. Overall, although each tree will only incorporate a small random subset of features, collectively most or all of the features will be utilized by all of the trees. This randomness prevents highly correlated trees since a few features that are particularly predictive could otherwise be used to construct most of the trees with a small training error but so the model would be overfit to this.
 
+\section{Clustering}
+\subsection{Density-based spatial clustering of applications with noise}
+DBSCAN is a density-based clustering algorithm: given a set of points in some space, it groups together points with many neighbours in a cluster, and marks distant points with neighbours too far away as noise.
+
+Given two parameters, a minimum distance $\epsilon$ that a point needs to be from another point to be considered its neighbour and the minimum number of points needed to form a cluster, minPoints.
+\begin{enumerate}
+\item Begin by picking an arbitrary point. \item 
+If there are more than minPoints points within $\epsilon$ from that point, a cluster is formed. The cluster is expanded by checking the new points and if they have more than minPoints points within $\epsilon$ the cluster is grown recursively. 
+\item Repeat the process once the cluster cannot be expanded.
+\item A point with fewer than minPoints is considered as an outlier or "noise point" and does not belong to any cluster.
+\end{enumerate}
+
+
 \section{Graph Theory}
 
 To use graphs constructed from the user location data as inputs into the traditional supervised machine learning algorithms, the features belonging to the graphs must be extracted from the graphs constructed. I will explain some of the graph features we can extract out to distinguish between graphs that were used in supervised approaches.
@@ -351,18 +364,34 @@ To use graphs constructed from the user location data as inputs into the traditi
 This section deals with the requirements set out, early decisions made and tools and software engineering techniques used to finish and deliver the project in an organised, timely fashion.
 
 \subsection{Requirements}
-
+The success requirements set out in the project proposal were:
+\begin{itemize}
+\item Graph Convolutional Neural Network algorithm is applied to the location graphs constructed from raw location data to classify the user into their demographic class.
+\item Trained, optimized, and benchmarked the performance of the supervised machine
+learning algorithms on features extracted from mobility graphs.
+\item  Evaluated the models quantitatively and chosen the most appropriate of these and
+pre-train the model and port into the Android application.
+\item  Have an Android application which can construct mobility graphs from the users
+location and infer the demographic class of the user locally using the model.
+\end{itemize}
+The 
 \subsection{Tools and Libraries}
 
 \textbf{Version Control}\\
 I used Git for version control for the project, which was put on my GitHub repository. 
 \textbf{Build Tools}\\
 I used PyCharm for building and testing the Python code since it contains a great SSH server interface for accessing the dataset stored on its private server and for creating and running Python scripts on that server via my local machine, abstracting away complexities in accessing the private, sensitive information to prevent any leaks of data out of its private server. \\
-\textbf{Languages}\\
+\textbf{Machine Learning}\\
+I opted for TensorFlow and scikit-learn to assist in the development of the machine learning algorithms since they both contain efficient open source implementations of the algorithms. 
+\textbf{Graphs}\\
+I opted for NetworkX, an open source graph manipulation library to assist in the creation of graphs. The key reasons are that it contains many graph algorithms that are tested and efficiently implemented allowing for fast prototyping and creation of graphs. 
 
+\textbf{Languages}\\
+The machine learning libraries and NetworkX  both had Python API's and was exported to the Android application which uses Java.
 
 \subsection{Starting Point}
 
+The implementation of the Convolutional Neural Networks on Graphs with Fast Localized Spectral Filtering was available and applied to the graphs built.
 
 
 

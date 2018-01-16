@@ -3,7 +3,8 @@ from sklearn.feature_selection import VarianceThreshold
 from sklearn.preprocessing import StandardScaler
 from sklearn import svm
 
-dataset = "/var/storage/miteyan/Dissertation/project/data/age_datasets/dataset.csv"
+# dataset = "/var/storage/miteyan/Dissertation/project/data/age_datasets/dataset.csv"
+dataset = "/var/storage/miteyan/Dissertation/project/data/age_datasets/week_clustered_dataset.csv"
 
 def get_array(file):
     arr = []
@@ -59,7 +60,7 @@ np.random.shuffle(np.array(data))
 # Scale the data to have a 0 mean
 data = scale_array(data)
 # Remove feature through feature selection that have a low variance of 5% between data
-data = remove_features(data, threshold=0.00)
+data = remove_features(data, threshold=0.05)
 data_size = len(data[0])
 # number of features - first column is the label
 num_features = data_size-1
@@ -68,7 +69,7 @@ num_labels = 2
 # learning rate (alpha)
 learning_rate = 0.05
 
-train_dataset, test_dataset, valid_dataset = split_train_test_valid(data, 0.2, 0.1)
+train_dataset, test_dataset, valid_dataset = split_train_test_valid(data, 0.2, 0.12)
 
 test_labels = get_labels(test_dataset)
 test_dataset = test_dataset[:, 1:]
@@ -85,7 +86,7 @@ train_size = len(train_dataset)
 clf = svm.SVC()
 clf.fit(train_dataset, train_labels)
 
-predictions = clf.predict(test_dataset)
+test_predictions = clf.predict(test_dataset)
 
 # utility function to calculate accuracy
 def accuracy(predictions, labels):
@@ -97,5 +98,12 @@ def accuracy(predictions, labels):
     return correctly_predicted*100/predictions.shape[0]
 
 
-acc = accuracy(predictions, test_labels)
-print(acc)
+test_acc = accuracy(test_predictions, test_labels)
+
+valid_predictions = clf.predict(valid_dataset)
+
+valid_acc = accuracy(valid_predictions, valid_labels)
+
+
+print("Test accuracy: ",test_acc)
+print("Validation accuracy: ", valid_acc)

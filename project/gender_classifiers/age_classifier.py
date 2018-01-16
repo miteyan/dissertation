@@ -4,7 +4,8 @@ from sklearn.feature_selection import VarianceThreshold
 from sklearn.preprocessing import StandardScaler
 
 
-dataset = "/var/storage/miteyan/Dissertation/project/data/gender_datasets/dataset.csv"
+# dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/weekly_dataset.csv"
+dataset = "/var/storage/miteyan/Dissertation/project/data/age_datasets/week_clustered_dataset.csv"
 
 def get_array(file):
     arr = []
@@ -53,16 +54,16 @@ print(data)
 # Scale the data to have a 0 mean
 data = scale_array(data)
 # Remove feature through feature selection that have a low variance of 5% between data
-data = remove_features(data, threshold=0.05)
+data = remove_features(data, threshold=0.15)
 data_size = len(data[0])
 # number of features - first column is the label
 num_features = data_size-1
 # number of target labels
 num_labels = 2
 # learning rate (alpha)
-learning_rate = 0.01
+learning_rate = 0.05
 
-train_dataset, test_dataset, valid_dataset = split_train_test_valid(data, 0.25, 0.25)
+train_dataset, test_dataset, valid_dataset = split_train_test_valid(data, 0.20, 0.20)
 
 test_labels = get_labels(test_dataset)
 test_dataset = test_dataset[:, 1:]

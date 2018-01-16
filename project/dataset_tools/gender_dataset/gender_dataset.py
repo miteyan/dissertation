@@ -3,7 +3,8 @@ import random as rd
 import networkx as nx
 import glob
 
-FOLDER = '/var/storage/sandra/mdc_analysis/mdc_data/lausanne/nkYear/edgelists_year/*'
+# FOLDER = '/var/storage/sandra/mdc_analysis/mdc_data/lausanne/nkYear/edgelists_year/*'
+FOLDER = '/var/storage/miteyan/Dissertation/project/cluster/src/clustering/week_clusters'
 CLASSES = '/var/storage/miteyan/Dissertation/project/data/genderclasses'
 
 
@@ -138,7 +139,7 @@ def create_datasets(input_folder, train_percent, test_percent, valid_percent):
     valid_data = round(valid_percent*file_count)
 
     lengths = [train_data, test_data, valid_data]
-    file_names = ["./train.csv", "./test.csv", "./valid.csv"]
+    # file_names = ["./train.csv", "./test.csv", "./valid.csv"]
     print("Writing: ", lengths)
 
 

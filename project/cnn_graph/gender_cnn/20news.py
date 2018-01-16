@@ -86,13 +86,13 @@ test.data_info(True)
 test.normalize(norm='l1')
 
 train_data = train.data.astype(np.float32)
+print(type(train_data))
 test_data = test.data.astype(np.float32)
 train_labels = train.labels
 test_labels = test.labels
 
 
 graph_data = train.embeddings.astype(np.float32)
-
 #del train, test
 
 
@@ -139,6 +139,7 @@ train_data = scipy.sparse.csr_matrix(y)
 # print(train_labels.shape) (9922,)
 
 test_data = scipy.sparse.csr_matrix(coarsening.perm_data(test_data.toarray(), perm))
+# print("test: ", test_data)
 del perm
 # #
 # # print(type(train_data))

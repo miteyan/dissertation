@@ -150,6 +150,7 @@ class TextDataset(object):
 class Text20News(TextDataset):
     def __init__(self, **params):
         dataset = sklearn.datasets.fetch_20newsgroups(**params)
+        print(dataset)
         self.documents = dataset.data
         self.labels = dataset.target
         self.class_names = dataset.target_names

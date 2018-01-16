@@ -1,7 +1,7 @@
 from sklearn import tree
 import helper.dataset_functions as ds
 
-dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/dataset.csv"
+dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/weekly_dataset.csv"
 
 train_dataset, test_dataset, valid_dataset = ds.get_data(dataset, 0.1, 0.2, 0.05)
 

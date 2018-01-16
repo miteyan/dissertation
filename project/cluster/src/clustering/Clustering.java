@@ -132,7 +132,7 @@ public class Clustering {
                 String filename = new StringBuilder().append(outFolder).append("/").append(file.getName().substring(0, file.getName().length()-4)).toString();
                 File f = new File(filename);
                 // if file exists:
-                if (!f.exists()) {
+                if (!f.exists() && !f.getName().equals("60250_2009_45.csv")) {
 
                     System.out.println(file.getName());
                     ArrayList<String[]> timeLocations = readCSV(file.getAbsolutePath());

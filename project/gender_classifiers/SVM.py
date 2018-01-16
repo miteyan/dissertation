@@ -3,7 +3,8 @@ from sklearn.feature_selection import VarianceThreshold
 from sklearn.preprocessing import StandardScaler
 from sklearn import svm
 
-dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/dataset.csv"
+# dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/dataset.csv"
+dataset = "/var/storage/miteyan/Dissertation/project/data/age_datasets/week_clustered_dataset.csv"
 
 def get_array(file):
     arr = []

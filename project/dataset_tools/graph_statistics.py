@@ -5,8 +5,8 @@ import glob
 
 MONTH_EDGELISTS = '/var/storage/miteyan/Dissertation/project/graph_creation/edgelists_month/*'
 CLASSES = '/var/storage/miteyan/Dissertation/project/data/age_classes/age_classes'
-FOLDER = '/var/storage/sandra/mdc_analysis/mdc_data/lausanne/nkYear/edgelists_year/*'
-
+# FOLDER = '/var/storage/sandra/mdc_analysis/mdc_data/lausanne/nkYear/edgelists_year/*'
+FOLDER = '/var/storage/miteyan/Dissertation/project/cluster/src/clustering/week_clusters/*'
 
 def get_classes(file):
     with open(file) as f:
@@ -29,7 +29,7 @@ def get_users_class(userid, classes):
         return "ERROR with id: ", userid
 
 
-def create_datasets(input_folder):
+def print_info(input_folder):
     edge_list_files = glob.glob(input_folder)
     file_count = len(edge_list_files)
     sett = set(range(0, file_count))
@@ -48,4 +48,4 @@ def create_datasets(input_folder):
     median = nodes_list[int(len(nodes_list)/2)]
     print(median)
 
-create_datasets(FOLDER)
+print_info(FOLDER)

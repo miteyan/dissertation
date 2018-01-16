@@ -4,10 +4,11 @@ import glob
 import csv
 from dataset_tools.feature_extraction import get_features
 
-MONTH_EDGELISTS = '/var/storage/miteyan/Dissertation/project/graph_creation/edgelists_month/*'
+# MONTH_EDGELISTS = '/var/storage/miteyan/Dissertation/project/graph_creation/edgelists_month/*'
+WEEK_EDGE_LISTS_DBSCAB = '/var/storage/miteyan/Dissertation/project/cluster/src/clustering/week_clusters/*'
 WRITE_FOLDER = '/var/storage/miteyan/Dissertation/project/data/age_datasets/'
 CLASSES = '/var/storage/miteyan/Dissertation/project/data/age_classes/age_classes'
-FILE_NAME = WRITE_FOLDER + "/dataset.csv"
+FILE_NAME = WRITE_FOLDER + "/week_clustered_dataset.csv"
 
 def get_classes(file):
     with open(file) as f:
@@ -46,7 +47,7 @@ def create_datasets(input_folder):
             index = rd.sample(sett, 1)[0]
             sett.remove(index)
             # User id for monthly graphs and yearly graphs are different
-            userid = edge_list_files[index][73:77]
+            userid = edge_list_files[index][79:83]
             label = get_users_class(userid, classes)
             # filter away graphs without any demographic data in the dataset
             if label == 0 or label == 1:
@@ -54,10 +55,9 @@ def create_datasets(input_folder):
                 # Get graph Features
                 G = nx.read_weighted_edgelist(edge_list_files[index])
                 features = get_features(label, G)
-                print(features)
                 # common_edges = [(u, v, d) for (u, v, d) in G.edges(data=True) if d['weight'] > 1.5]
                 # write into csv file for either male or female
                 csvwriter.writerow(features)
                 print(features)
 
-create_datasets(MONTH_EDGELISTS)
+create_datasets(WEEK_EDGE_LISTS_DBSCAB)
