@@ -1,0 +1,3 @@
+<WakefulIntentService
+    listener="uk.ac.cam.cl.loclogger.alarms.ServiceAlarm"
+    />

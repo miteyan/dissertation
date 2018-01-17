@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="83aeea0592909106f9d6d91702844d7bab309ee4">
+        <dex dex="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_27926927072b3b60a0cb78f2fb89e3a1db2d96d7/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/libs/jgrapht-core-0.9.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="83fda0ca7098521d70cfb7891bee1d1f899e00f4">
+        <dex dex="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/build/intermediates/transforms/dex/debug/folders/1000/2/jgrapht-core-0.9.2_baa9727336684d471e0fcef136094196ff217e22/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_a0d2ed63358b8bfd298afc0fd67ae800674e7a12/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/libs/apache-mime4j-0.6.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="aef60852d64c66a92bc881f41c1718276df7be5a">
+        <dex dex="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/build/intermediates/transforms/dex/debug/folders/1000/2/apache-mime4j-0.6.1_b2398b09767d506811a92607b7d4de2114c81b57/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/libs/apache-mime4j-0.6.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="aef60852d64c66a92bc881f41c1718276df7be5a">
+        <dex dex="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/build/intermediates/transforms/dex/debug/folders/1000/2/apache-mime4j-0.6.1_b2398b09767d506811a92607b7d4de2114c81b57/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/libs/jgrapht-core-0.9.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="83fda0ca7098521d70cfb7891bee1d1f899e00f4">
+        <dex dex="/Users/ss2138/Desktop/research/EADD/androidAPP/cognitive-graphs-android/app/build/intermediates/transforms/dex/debug/folders/1000/2/jgrapht-core-0.9.2_baa9727336684d471e0fcef136094196ff217e22/classes.dex" />
+    </item>
+
+</items>
