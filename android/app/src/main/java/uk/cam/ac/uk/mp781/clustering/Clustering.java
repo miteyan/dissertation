@@ -20,6 +20,13 @@ public class Clustering {
         reader.close();
         return timeLocations;
     }
+    static ArrayList<String[]> readString(String fileContents) throws IOException {
+        ArrayList<String[]> timeLocations = new ArrayList<>();
+        for (String line : fileContents.split("\t")) {
+            timeLocations.add(line.split(","));
+        }
+        return timeLocations;
+    }
     static long dateToUnix(String date) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date d = dateFormat.parse(date);
@@ -116,45 +123,31 @@ public class Clustering {
         }
         return sb.toString();
     }
+    public static String cluster(String locations, int minElements, int minDistance) throws IOException, ParseException {
+        ArrayList<String[]> timeLocations = readString(locations);
+        ArrayList<LatLongTime> locationTimes = getLocations(timeLocations);
 
-    private static void cluster(String inFolder, String outFolder) throws IOException, ParseException {
-        File dir = new File(inFolder);
-        File[] directoryListing = dir.listFiles();
+        DBSCAN dbscanClusterer = new DBSCAN(locationTimes, minElements, minDistance);
+        System.out.println("Creating clusters.");
+        ArrayList<ArrayList<LatLongTime>> clusters = dbscanClusterer.performClustering();
+        System.out.println("Creating time list.");
+        ArrayList<ClusterNode> timeList = getTimeList(clusters);
+        System.out.println("Creating edge list.");
+        String edgelist = createEdgeList(timeList);
+        return edgelist;
 
-        int minElements = 5;
-        int minDistance = 5;//metres
-
-        if (directoryListing != null) {
-            for (File file : directoryListing) {
-                String filename = new StringBuilder().append(outFolder).append("/").append(file.getName().substring(0, file.getName().length()-4)).toString();
-                File f = new File(filename);
-                // if file exists:
-                if (!f.exists() && !f.getName().equals("60250_2009_45.csv")) {
-
-                    System.out.println(file.getName());
-                    ArrayList<String[]> timeLocations = readCSV(file.getAbsolutePath());
-                    ArrayList<LatLongTime> locationTimes = getLocations(timeLocations);
-                    DBSCAN dbscanClusterer = new DBSCAN(locationTimes, minElements, minDistance);
-
-                    String edgelist = createEdgeList(
-                            getTimeList(
-                                    dbscanClusterer.performClustering()));
-                    if (!edgelist.isEmpty()) {
-                        writeFile(filename, edgelist);
-                    }
-                } else {
-                    System.out.println("skipping: "+ filename);
-
-                }
-            }
-        }
     }
 
     public static void main(String[] args) throws IOException, ParseException {
-        String in_folder = "/var/storage/sandra/mdc_analysis/mdc_data/full_lausanne/nkWeek/week";
-        String out_folder = "/var/storage/miteyan/Dissertation/project/cluster/src/clustering/week_clusters";
+//        String in_folder = "/var/storage/sandra/mdc_analysis/mdc_data/full_lausanne/nkWeek/week";
+//        String out_folder = "/var/storage/miteyan/Dissertation/project/cluster/src/clustering/week_clusters";
 //        String in_folder = "/var/storage/miteyan/Dissertation/project/cluster/src/clustering/data";
-        System.out.println(out_folder);
+//        System.out.println(out_folder);
+
+        String x = "2018-01-19 16:44:37,40.0637114,-0.6736401\t2018-01-19 16:44:39,40.0637099,-0.6736379\t2018-01-19 16:45:10,40.0637183,-0.6736382\t2018-01-19 16:45:40,40.0637221,-0.6736287\t2018-01-19 16:46:10,40.0637226,-0.6736276\t2018-01-19 16:46:40,40.0637351,-0.6736201\t2018-01-19 16:47:10,40.0637422,-0.6736181\t2018-01-19 16:47:40,40.0637452,-0.6736171\t2018-01-19 16:48:10,40.0637388,-0.6736236\t2018-01-19 16:48:29,40.063738,-0.6736289\t2018-01-19 16:49:08,40.0637335,-0.6736298\t2018-01-19 16:49:50,40.0637347,-0.6736262\t2018-01-19 16:50:40,40.0637374,-0.6736376\t";
+        String edgelist = cluster(x, 5, 5);
+
+        System.out.println("Edgelist: " +edgelist);
         //        ArrayList<String[]> timeLocations = readCSV("/Users/miteyan/dissertation/project/cluster/src/clustering/data");
 //
 //        DistanceMetric distanceMetric = new DistanceMetric();
@@ -170,9 +163,8 @@ public class Clustering {
 //        ArrayList<String> edgelist = createEdgeList(clusterNodes);
 //        System.out.println(edgelist.size());
 //        System.out.println(edgelist);
-
-        cluster(in_folder, out_folder);
-        System.out.println("done");
+//        cluster(in_folder, out_folder);
+//        System.out.println("done");
 //        System.out.println(isSorted(clusterNodes)); true
     }
 
