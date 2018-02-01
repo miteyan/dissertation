@@ -1,3 +1,4 @@
+import csv
 import sys
 import networkx as nx
 
@@ -64,7 +65,6 @@ def get_features(label, G):
         radius = nx.radius(G)
         centre_size = sum(x == radius for x in eccentricity.values())
         mean_eccentricity, var_eccentricity = get_mean_variance(eccentricity)
-        average_shortest_path_length = nx.average_shortest_path_length(G)
 
         clustering_coefficient = nx.clustering(G)
         mean_clustering_coefficient, var_clustering_coefficient = get_mean_variance(clustering_coefficient)
@@ -75,15 +75,11 @@ def get_features(label, G):
         mean_betweeness_centrality, var_betweeness_centrality = get_mean_variance(betweeness_centrality)
 
         edge_betweeness_centrality = nx.edge_betweenness_centrality(G)
-        node_betweeness_centrality = nx.betweenness_centrality(G)
         mean_edge_betweeness_centrality, var_edge_betweeness_centrality = get_mean_variance(edge_betweeness_centrality)
-        mean_node_betweeness_centrality, var_node_betweeness_centrality = get_mean_variance(node_betweeness_centrality)
 
         pagerank = nx.pagerank(G)
         mean_pagerank, var_pagerank = get_mean_variance(pagerank)
     except nx.NetworkXError:
         print("Graph has an error eg not connected, infinite cycles, etc")
         raise ValueError("Graph error")
-    return [label, nodes, edges, max_degree, density, diameter, radius, centre_size, mean_eccentricity, var_eccentricity, average_shortest_path_length, mean_clustering_coefficient, var_clustering_coefficient, mean_betweeness_centrality, var_betweeness_centrality, mean_shortest_path_length, var_shortest_path_length, mean_edge_betweeness_centrality, var_node_betweeness_centrality, mean_node_betweeness_centrality, var_node_betweeness_centrality, mean_pagerank, var_pagerank]
-
-
+    return [label, nodes, edges, max_degree, density, diameter, radius, centre_size, mean_eccentricity, var_eccentricity, mean_clustering_coefficient, var_clustering_coefficient, mean_betweeness_centrality, var_betweeness_centrality, mean_shortest_path_length, var_shortest_path_length, mean_edge_betweeness_centrality, var_edge_betweeness_centrality , mean_pagerank, var_pagerank]

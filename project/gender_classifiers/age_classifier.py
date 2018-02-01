@@ -4,8 +4,8 @@ from sklearn.feature_selection import VarianceThreshold
 from sklearn.preprocessing import StandardScaler
 
 
-# dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/weekly_dataset.csv"
-dataset = "/var/storage/miteyan/Dissertation/project/data/age_datasets/week_clustered_dataset.csv"
+dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/weekly_dataset.csv"
+# dataset = "/var/storage/miteyan/Dissertation/project/data/age_datasets/week_clustered_dataset.csv"
 
 def get_array(file):
     arr = []
@@ -25,9 +25,7 @@ def scale_array(array):
 
 
 def remove_features(array, threshold):
-    if threshold>1 or threshold < 0:
-        raise Exception('Threshold should be within [0,1]')
-    return VarianceThreshold(threshold=(threshold*(1-threshold))).fit_transform(array)
+    return VarianceThreshold(threshold=threshold).fit_transform(array)
 
 
 def split_train_test_valid(array, test, valid):
@@ -49,8 +47,7 @@ def get_labels(array):
 
 # 2D array of labels and features
 data = get_array(dataset)
-np.random.shuffle(np.array(data))
-print(data)
+print(data[0])
 # Scale the data to have a 0 mean
 data = scale_array(data)
 # Remove feature through feature selection that have a low variance of 5% between data
@@ -58,6 +55,7 @@ data = remove_features(data, threshold=0.15)
 data_size = len(data[0])
 # number of features - first column is the label
 num_features = data_size-1
+print(num_features)
 # number of target labels
 num_labels = 2
 # learning rate (alpha)

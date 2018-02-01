@@ -3,10 +3,10 @@ import numpy as np
 
 # load into array
 
-test = "/var/storage/miteyan/Dissertation/project/data/month_datasets/test.csv"
-train = "/var/storage/miteyan/Dissertation/project/data/month_datasets/train.csv"
-valid = "/var/storage/miteyan/Dissertation/project/data/month_datasets/valid.csv"
-
+# test = "/var/storage/miteyan/Dissertation/project/data/month_datasets/test.csv"
+# train = "/var/storage/miteyan/Dissertation/project/data/month_datasets/train.csv"
+# valid = "/var/storage/miteyan/Dissertation/project/data/month_datasets/valid.csv"
+dataset = "/var/storage/miteyan/Dissertation/project/data/genderdata/weekly_dataset2.csv"
 def get_array(file):
     arr = []
     with open(file, encoding='utf-16') as f:
@@ -18,14 +18,9 @@ def get_array(file):
     f.close()
     return np.array(arr)
 
-test_dataset = get_array(test)
-train_dataset = get_array(train)
-valid_dataset = get_array(valid)
-
-test_dataset = np.concatenate((test_dataset, train_dataset, valid_dataset))
-print(len(test_dataset))
-print(len(test_dataset[0]))
-sel = VarianceThreshold(threshold=(.9 * (1 - .9)))
-a = sel.fit_transform(test_dataset)
-
+dataset = get_array(dataset)
+print(len(dataset[0]))
+sel = VarianceThreshold(threshold=(1))
+a = sel.fit_transform(dataset)
+print(a[0])
 print(len(a[0]))

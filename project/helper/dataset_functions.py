@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.feature_selection import VarianceThreshold
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MaxAbsScaler
 
 
 def get_labels(array):
@@ -18,22 +18,22 @@ def get_array(file):
         read_data = f.read()
         for line in read_data.splitlines():
             features = [np.float32(x) for x in line.split(",")]
-
             arr.append(features)
     f.close()
     return arr
 
 
-def scale_array(array):
+def standard_scale_array(array):
     scaler = StandardScaler()
+    return scaler.fit_transform(array)
+
+def abs_scale_array(array):
+    scaler = MaxAbsScaler()
     return scaler.fit_transform(array)
 
 
 def remove_features(array, threshold):
-    if threshold>1 or threshold < 0:
-        raise Exception('Threshold should be within [0,1]')
-    return VarianceThreshold(threshold=(threshold*(1-threshold))).fit_transform(array)
-
+    return VarianceThreshold(threshold=threshold).fit_transform(array)
 
 def split_train_test_valid(array, test, valid):
     if test+valid < 1 and test >= 0 and valid >= 0:
@@ -45,18 +45,43 @@ def split_train_test_valid(array, test, valid):
 def get_data(file, feature_threshold, test_split, valid_split):
     array = get_array(file)
     np.random.shuffle(array)
-    return split_train_test_valid(remove_features(scale_array(array), feature_threshold), test_split, valid_split)
+    scaled_array = abs_scale_array(array)
+    return split_train_test_valid(remove_features(scaled_array, feature_threshold), test_split, valid_split)
 
 def get_all_data(file, feature_threshold):
     array = get_array(file)
     np.random.shuffle(array)
-    return remove_features(scale_array(array), feature_threshold)
+    return remove_features(abs_scale_array(array), feature_threshold)
+
+def get_balanced_data(file):
+    array = get_array(file)
+    label0 = 0
+    label1 = 1
+
+    for i in range(0,len(array)-1):
+        if array[i][0] == 0:
+           label0+=1
+        else:
+            label1+=1
+
+    ret = []
+    labelmin = min(label0, label1)
+    label0 = 0
+    label1 = 0
+    for i in range(0, len(array)-1):
+        if array[i][0] == 0 and label0 < labelmin:
+           label0 += 1
+           ret.append(array[i])
+        elif array[i][0] == 1 and label1 < labelmin:
+            label1 += 1
+            ret.append(array[i])
+    return ret
 
 
 def get_k_fold_validation(file, k):
     array = get_array(file)
     l = len(array)
-    print(l)
+    # print(l)
     block_size = int(l / k)
     k_fold_array = []
     for i in range(0, k):
