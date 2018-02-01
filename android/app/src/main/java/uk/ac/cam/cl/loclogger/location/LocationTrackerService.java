@@ -39,6 +39,13 @@ public class LocationTrackerService extends WakefulIntentService implements
 
     private final LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
+    public static boolean userActivity = true;
+
+    // acceleration
+    /*private ArrayList<Float> xAxis, yAxis, zAxis;
+    private ArrayList<Long> timestamps;
+    private SensorManager sensorManager = null;
+    private Sensor sensor = null;*/
 
     public LocationTrackerService() {
         super(ApplicationConstants.TAG);
@@ -97,6 +104,22 @@ public class LocationTrackerService extends WakefulIntentService implements
                 PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
+        Log.d("MYINFO",LocationTrackerActivity.getUserID(getApplicationContext()));
+        // Don't get a location if the user is still.
+        if (!userActivity) {
+            FileLogger.log("User is still. Do not get location.", getApplicationContext());
+
+            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
+            Date now = new Date();
+            String strDate = sdfDate.format(now);
+            String row = strDate + "," + location.getLatitude() + "," + location.getLongitude() + "\t";
+            String fileName = FileLogger.getFilename();
+            FileLogger.writeToFile(fileName, row, context);
+            //LocationLogger.log("FORCED UPLOAD CHECK", this.getApplicationContext());
+            return;
+        }
+
         FileLogger.log("Getting location.", this.getApplicationContext());
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
@@ -151,7 +174,6 @@ public class LocationTrackerService extends WakefulIntentService implements
             FileLogger.log("Location null ", this.getApplicationContext());
             return;
         }
-
         if (location.getAccuracy() > ApplicationConstants.MIN_ACCURACY_METRES ||
                 System.currentTimeMillis() - location.getTime() >
                         ApplicationConstants.LOG_INTERVAL_MS) {
