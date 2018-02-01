@@ -23,6 +23,7 @@ flags.DEFINE_integer('number_edges', 16, 'Graph: minimum number of edges per ver
 flags.DEFINE_string('metric', 'cosine', 'Graph: similarity measure (between features).')
 # TODO: change cgcnn for combinatorial Laplacians.
 flags.DEFINE_bool('normalized_laplacian', True, 'Graph Laplacian: normalized.')
+flags.DEFINE_bool('norm')
 flags.DEFINE_integer('coarsening_levels', 0, 'Number of coarsened graphs.')
 
 flags.DEFINE_string('dir_data', os.path.join('..', 'data', '20news'), 'Directory to store data.')

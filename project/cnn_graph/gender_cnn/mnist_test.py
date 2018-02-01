@@ -62,7 +62,6 @@ print(train_data.shape)
 print(val_data.shape)
 print(test_data.shape)
 
-
 print(train_data[0].shape)
 
 t_start = time.process_time()

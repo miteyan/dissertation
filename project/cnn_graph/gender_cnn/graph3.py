@@ -43,7 +43,7 @@ def get_centrality(min_no_nodes, G):
         central_nodes = sorted(nx.degree_centrality(G).items(), key=operator.itemgetter(1))[:min_no_nodes]
         central_nodes = sorted(central_nodes, key=operator.itemgetter(0))
         central_nodes = [x[1] for x in central_nodes]
-        print(central_nodes)
+        # print(central_nodes)
         return np.array(central_nodes)
 #
 # # Get subgraph of a graph G
@@ -65,6 +65,7 @@ def get_scipy_subgraph(min_no_nodes, G):
         subgraph = [idx for idx, val in central_nodes]
         sg = G.subgraph(subgraph)
         return nx.to_scipy_sparse_matrix(sg)
+
 
 def get_classes(file):
     with open(file) as f:
@@ -103,7 +104,7 @@ def create_datasets(input_folder, num_nodes):
         sett.remove(index)
         # userid = edge_list_files[index][73:77]
         userid = edge_list_files[index][79:83]
-        print(userid)
+        # print(userid)
         label = get_users_class(userid, classes)
         # filter away graphs without any demographic data in the dataset
         if label == 0 or label == 1:
@@ -118,13 +119,12 @@ def create_datasets(input_folder, num_nodes):
                     graphs2.append(sg2)
             except nx.NetworkXError:
                 print("Unconnected graph: ", userid)
-
     return np.array(graphs), np.array(graphs2), np.array(labels)
 
 
 def get_data_in_format(data):
-    print(len(data))
-    print(len(data[0]))
+    # print(len(data))
+    # print(len(data[0]))
     return scipy.sparse.csr_matrix(data)
 
 
@@ -145,17 +145,21 @@ def split_train_test_valid(array, test, valid):
     else:
         raise Exception('Train, test, valid percents do not add to 100')
 
-
 graphs, graphs2, labels = create_datasets(FOLDER, MEDIAN)
+np.savetxt("./data/graphs.npy", graphs, fmt='%1.17f')
+np.save("./data/graphs2.npy", graphs2)
+np.savetxt("./data/labels.npy", labels, fmt='%1.8f')
 
+graphs = np.loadtxt("./data/graphs.npy", dtype="f")
+graphs22 = np.load("./data/graphs2.npy")
+labels = np.loadtxt("./data/labels.npy", dtype="f")
+# save to file
 # split into train, test, valid
-
 # train_data, test_data, val_data = split_train_test_valid(graphs, 0.25, 0.25)
 # train_labels, test_labels, val_labels = split_train_test_valid(labels, 0.25, 0.25)
 
 length = len(graphs)
 len2 = len(labels)
-
 
 train_data = graphs[:int(length/2)]
 train_labels = labels[:int(length/2)]

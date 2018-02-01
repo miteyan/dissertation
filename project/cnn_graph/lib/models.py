@@ -80,6 +80,71 @@ class base_model(object):
             string += '\ntime: {:.0f}s (wall {:.0f}s)'.format(time.process_time()-t_process, time.time()-t_wall)
         return string, accuracy, f1, loss
 
+    def fit2(self, train_data, train_labels, val_data, val_labels):
+        t_process, t_wall = time.process_time(), time.time()
+        sess = tf.Session(graph=self.graph)
+        shutil.rmtree(self._get_path('summaries'), ignore_errors=True)
+        writer = tf.summary.FileWriter(self._get_path('summaries'), self.graph)
+        shutil.rmtree(self._get_path('checkpoints'), ignore_errors=True)
+        os.makedirs(self._get_path('checkpoints'))
+        path = os.path.join(self._get_path('checkpoints'), 'model')
+        sess.run(self.op_init)
+
+        # Training.
+        accuracies = []
+        losses = []
+        indices = collections.deque()
+        num_steps = int(self.num_epochs * train_data.shape[0] / self.batch_size)
+
+        for step in range(1, num_steps + 1):
+
+            # Be sure to have used all the samples before using one a second time.
+            if len(indices) < self.batch_size:
+                indices.extend(np.random.permutation(train_data.shape[0]))
+            idx = [indices.popleft() for i in range(self.batch_size)]
+            # getting n random indices permutations.
+            # print(len(train_data)) 56]
+            print(train_data.shape)
+            batch_data, batch_labels = train_data[idx], train_labels[idx]
+
+            if type(batch_data) is not np.ndarray:
+                batch_data = batch_data.toarray()  # convert sparse matrices
+            feed_dict = {self.ph_data: batch_data, self.ph_labels: batch_labels, self.ph_dropout: self.dropout}
+            print("Changes: >>")
+            print(self.op_train)
+            print(self.op_loss_average)
+            print(feed_dict)
+            learning_rate, loss_average = sess.run([self.op_train, self.op_loss_average], feed_dict)
+
+            # Periodical evaluation of the model.
+            if step % self.eval_frequency == 0 or step == num_steps:
+                epoch = step * self.batch_size / train_data.shape[0]
+                print('step {} / {} (epoch {:.2f} / {}):'.format(step, num_steps, epoch, self.num_epochs))
+                print('  learning_rate = {:.2e}, loss_average = {:.2e}'.format(learning_rate, loss_average))
+                string, accuracy, f1, loss = self.evaluate(val_data, val_labels, sess)
+                accuracies.append(accuracy)
+                losses.append(loss)
+                print('  validation {}'.format(string))
+                print('  time: {:.0f}s (wall {:.0f}s)'.format(time.process_time() - t_process, time.time() - t_wall))
+
+                # Summaries for TensorBoard.
+                summary = tf.Summary()
+                summary.ParseFromString(sess.run(self.op_summary, feed_dict))
+                summary.value.add(tag='validation/accuracy', simple_value=accuracy)
+                summary.value.add(tag='validation/f1', simple_value=f1)
+                summary.value.add(tag='validation/loss', simple_value=loss)
+                writer.add_summary(summary, step)
+
+                # Save model parameters (for evaluation).
+                self.op_saver.save(sess, path, global_step=step)
+
+        print('validation accuracy: peak = {:.2f}, mean = {:.2f}'.format(max(accuracies), np.mean(accuracies[-10:])))
+        writer.close()
+        sess.close()
+
+        t_step = (time.time() - t_wall) / num_steps
+        return accuracies, losses, t_step
+
     def fit(self, train_data, train_labels, val_data, val_labels):
         t_process, t_wall = time.process_time(), time.time()
         sess = tf.Session(graph=self.graph)
@@ -95,6 +160,7 @@ class base_model(object):
         losses = []
         indices = collections.deque()
         num_steps = int(self.num_epochs * train_data.shape[0] / self.batch_size)
+
         for step in range(1, num_steps+1):
 
             # Be sure to have used all the samples before using one a second time.
@@ -106,6 +172,10 @@ class base_model(object):
             if type(batch_data) is not np.ndarray:
                 batch_data = batch_data.toarray()  # convert sparse matrices
             feed_dict = {self.ph_data: batch_data, self.ph_labels: batch_labels, self.ph_dropout: self.dropout}
+            print("Changes: >>")
+            print(self.op_train)
+            print(self.op_loss_average)
+            print(feed_dict)
             learning_rate, loss_average = sess.run([self.op_train, self.op_loss_average], feed_dict)
 
             # Periodical evaluation of the model.
@@ -799,7 +869,6 @@ class cgcnn(base_model):
         self.filter = getattr(self, filter)
         self.brelu = getattr(self, brelu)
         self.pool = getattr(self, pool)
-        
         # Build the computational graph.
         self.build_graph(M_0)
         
@@ -891,6 +960,39 @@ class cgcnn(base_model):
         x0 = tf.transpose(x, perm=[1, 2, 0])  # M x Fin x N
         x0 = tf.reshape(x0, [M, Fin*N])  # M x Fin*N
         x = tf.expand_dims(x0, 0)  # 1 x M x Fin*N
+        def concat(x, x_):
+            x_ = tf.expand_dims(x_, 0)  # 1 x M x Fin*N
+            return tf.concat([x, x_], axis=0)  # K x M x Fin*N
+        if K > 1:
+            x1 = tf.sparse_tensor_dense_matmul(L, x0)
+            x = concat(x, x1)
+        for k in range(2, K):
+            x2 = 2 * tf.sparse_tensor_dense_matmul(L, x1) - x0  # M x Fin*N
+            x = concat(x, x2)
+            x0, x1 = x1, x2
+        x = tf.reshape(x, [K, M, Fin, N])  # K x M x Fin x N
+        x = tf.transpose(x, perm=[3,1,2,0])  # N x M x Fin x K
+        x = tf.reshape(x, [N*M, Fin*K])  # N*M x Fin*K
+        # Filter: Fin*Fout filters of order K, i.e. one filterbank per feature pair.
+        W = self._weight_variable([Fin*K, Fout], regularization=False)
+        x = tf.matmul(x, W)  # N*M x Fout
+        return tf.reshape(x, [N, M, Fout])  # N x M x Fout
+
+    def chebyshev6(self, x, L, Fout, K):
+        N, M, Fin = x.get_shape()
+        N, M, Fin = int(N), int(M), int(Fin)
+        # Rescale Laplacian and store as a TF sparse tensor. Copy to not modify the shared L.
+        L = scipy.sparse.csr_matrix(L)
+        L = graph.rescale_L(L, lmax=2)
+        L = L.tocoo()
+        indices = np.column_stack((L.row, L.col))
+        L = tf.SparseTensor(indices, L.data, L.shape)
+        L = tf.sparse_reorder(L)
+        # Transform to Chebyshev basis
+        x0 = tf.transpose(x, perm=[1, 2, 0])  # M x Fin x N
+        x0 = tf.reshape(x0, [M, Fin*N])  # M x Fin*N
+        x = tf.expand_dims(x0, 0)  # 1 x M x Fin*N
+
         def concat(x, x_):
             x_ = tf.expand_dims(x_, 0)  # 1 x M x Fin*N
             return tf.concat([x, x_], axis=0)  # K x M x Fin*N
