@@ -37,6 +37,13 @@ public class FileLogger {
         return calendar.get(calendar.YEAR)+ "_" + calendar.get(Calendar.WEEK_OF_YEAR)+".loc";
     }
 
+    public static String getLastFileName() {
+        Calendar calendar = new GregorianCalendar();
+        Date trialTime = new Date();
+        calendar.setTime(trialTime);
+        return calendar.get(calendar.YEAR)+ "_" + (calendar.get(Calendar.WEEK_OF_YEAR)-1)+".loc";
+    }
+
     public static void log(String s, Context context) {
         Log.d(TAG, s);
 //        LocationTrackerActivity.appendToLogView(s);
