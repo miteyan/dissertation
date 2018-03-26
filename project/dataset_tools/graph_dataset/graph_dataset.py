@@ -8,7 +8,7 @@ import numpy as np
 
 from scipy.sparse import csr_matrix
 
-# FOLDER =    '/var/storage/miteyan/Dissertation/project/graph_creation/edgelists_month/*'
+# FOLDER =    '/var/storage/miteyan/Dissertation/project/graph_creation_lib/edgelists_month/*'
 FOLDER    = '/var/storage/sandra/mdc_analysis/mdc_data/lausanne/nkYear/edgelists_year/*'
 # MONTH_EDGELISTS =\
 OUTPUT_FOLDER  = '/var/storage/miteyan/Dissertation/project/data/graph_datasets/'

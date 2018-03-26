@@ -1,5 +1,4 @@
 import csv
-import helper.write_file as writer
 
 file = "/var/storage/Datasets/mdc/nokia_dataset/mdcdb/mdcdb_1003/demographics.csv"
 write_file = './age_classes/age_classes'

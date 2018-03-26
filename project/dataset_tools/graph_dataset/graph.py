@@ -1,22 +1,19 @@
-import sys, os
+import os
+import sys
+
 sys.path.insert(0, '..')
-from lib import models, graph, coarsening, utils
+from lib import models, graph, utils
 
 import tensorflow as tf
 import scipy.sparse
-import numpy as np
 import time
 
 
 import operator
-import sys
 import random as rd
 import networkx as nx
 import glob
-import csv
 import numpy as np
-
-from scipy.sparse import csr_matrix
 
 flags = tf.app.flags
 FLAGS = flags.FLAGS
@@ -36,7 +33,7 @@ flags.DEFINE_integer('val_size', 400, 'Size of the validation set.')
 remove = ('headers','footers','quotes')  # (), ('headers') or ('headers','footers','quotes')
 
 
-# FOLDER =    '/var/storage/miteyan/Dissertation/project/graph_creation/edgelists_month/*'
+# FOLDER =    '/var/storage/miteyan/Dissertation/project/graph_creation_lib/edgelists_month/*'
 FOLDER    = '/var/storage/sandra/mdc_analysis/mdc_data/lausanne/nkYear/edgelists_year/*'
 CLASSES = '/var/storage/miteyan/Dissertation/project/data/gender_classes/genderclasses'
 
