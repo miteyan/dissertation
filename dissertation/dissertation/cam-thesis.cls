@@ -1,45 +1,10 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%% Class ``cam-thesis''
-%%
-%% Version: v0.2
-%% Authors: Jean Martina, Rok Strnisa, Matej Urbas
-%% Date: 30/07/2008
-%%
-%% Copyright (c) 2008-2012, Rok Strniša, Jean Martina, Matej Urbas
-%% License: Simplified BSD License
-%% License file: ./License
-%% Original License URL: http://www.freebsd.org/copyright/freebsd-license.html
-%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%% General guidelines on which this class is based:
-%%
-%%     http://www.cl.cam.ac.uk/local/phd/typography/
-%%     http://www.admin.cam.ac.uk/offices/gradstud/exams/submission/phd/format.html
-%%
-%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%% Class identification.
-%%
-%%%%%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{cam-thesis}[2012/04/12 University of Cambridge thesis class]
-
 \typeout{}
 \typeout{***********************************************}
 \typeout{***********************************************}
 \typeout{}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%% General Cambridge guidelines.
-%%
 %% LIMIT: 60k words (including tables and footnotes, excluding appendices, bib,
 %% photos, diagrams); title and section headings should be capitalized as normal
 %% sentences; citations should include authors' initials, and page numbers (if
@@ -59,27 +24,15 @@
 %% command.
 %%
 %%%%%
-
 % techreport - formats the thesis as a technical report.
 \newif\ifcam@techreport\cam@techreportfalse
 \DeclareOption{techreport}{\cam@techreporttrue}
-
-% times - tells the class to use the times font.
 \newif\ifcam@times\cam@timesfalse
 \DeclareOption{times}{\cam@timestrue}
-
-% glossary - puts the glossary (after the TOC).
-%
 \newif\ifcam@glossary\cam@glossaryfalse
 \DeclareOption{glossary}{\cam@glossarytrue}
-
-% index - puts the index at the end of the thesis.
-%
 \newif\ifcam@index\cam@indexfalse
 \DeclareOption{withindex}{\cam@indextrue}
-
-% 1st year report - omits abstract/declaration
-%
 \newif\ifcam@firstyr\cam@firstyrfalse
 \DeclareOption{firstyr}{\cam@firstyrtrue}
 
@@ -189,7 +142,7 @@
 % 'Top margin' is the distance between the top of the text and the top of the page.
 % 'Bottom margin' is the distance between the bottom of the footer (the page number) and the bottom of the page.
 \setlength{\oddsidemargin}{#1}        % inner margin
-\setlength{\evensidemargin}{#2}       % outer margin
+\setlength{\evensidemargin}{#1}       % outer margin
 \setlength{\cam@topmargin}{#3}        % top margin        (the distance from the top of the page to the top of the body text -- the header is located between)
 \setlength{\cam@bottommargin}{#4}     % bottom margin     (the distance from the bottom of the page to the bottom of the body text -- the footer is located between)
 % Horizontal spacing
@@ -391,7 +344,6 @@
     \includegraphics[height=20mm]{\@collegeshield}
     \end{lrbox}
 \fi
-
 %% AUTHOR&COLLEGE box
 \newsavebox{\cam@authorcollege}
 \begin{lrbox}{\cam@authorcollege}
@@ -460,10 +412,10 @@
 % First yr report doesn't need a standalone abstract
 \else
 
-\chapter*{Abstract}
-\thispagestyle{empty}
-\@abstract{}
-\fi
+% \chapter*{Abstract}
+% \thispagestyle{empty}
+% \@abstract{}
+% \fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
@@ -508,13 +460,13 @@ Date:
 %%
 %%%%%
 
-\ifcam@firstyr
-% First yr report doesn't need the declaration
-\else
-\chapter*{Acknowledgements}
-\thispagestyle{empty}
-\@acknowledgements{}
-\fi
+% \ifcam@firstyr
+% % First yr report doesn't need the declaration
+% \else
+% \chapter*{Acknowledgements}
+% \thispagestyle{empty}
+% \@acknowledgements{}
+% \fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
