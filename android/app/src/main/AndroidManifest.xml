@@ -55,7 +55,7 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
-        <service android:name=".activity.ActivityRecognitionService" />
+        <!--<service android:name=".activity.ActivityRecognitionService" />-->
 
         <provider
             android:name=".transfer.StubProvider"

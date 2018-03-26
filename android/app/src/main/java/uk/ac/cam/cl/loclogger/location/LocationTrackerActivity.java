@@ -1,10 +1,7 @@
 package uk.ac.cam.cl.loclogger.location;
 
 import android.Manifest;
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,42 +15,21 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.view.ViewGroup.LayoutParams;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.net.URL;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import uk.ac.cam.cl.loclogger.ApplicationConstants;
 import uk.ac.cam.cl.loclogger.R;
 import uk.ac.cam.cl.loclogger.alarms.ServiceAlarm;
 import uk.ac.cam.cl.loclogger.logging.FileLogger;
-import uk.cam.ac.uk.mp781.clustering.Clustering;
-import uk.cam.ac.uk.mp781.feature_extraction.FeatureExtraction;
-import uk.cam.ac.uk.mp781.feature_extraction.Features;
+import uk.ac.cam.mp781.clustering.Clustering;
+import uk.ac.cam.mp781.feature_extraction.FeatureExtraction;
+import uk.ac.cam.mp781.feature_extraction.Features;
 import weka.classifiers.Classifier;
 import weka.core.Attribute;
 import weka.core.FastVector;
@@ -98,14 +74,12 @@ public class LocationTrackerActivity extends Activity {
             String fileName = FileLogger.getFilename();
             getLabel(fileName);
         });
-
         Button lastWeekBtn = (Button) findViewById(R.id.button2);
         lastWeekBtn.setOnClickListener(view -> {
             String fileName = FileLogger.getLastFileName();
             getLabel(fileName);
         });
     }
-
     public void getLabel(String fileName) {
         try {
             Context context = getApplicationContext();
@@ -151,7 +125,6 @@ public class LocationTrackerActivity extends Activity {
     @Override protected void onStart() {
         super.onStart();
         Log.d("MYINFO","onStart Called");
-
     }
 
     @Override public void onRequestPermissionsResult(int requestCode,
@@ -178,17 +151,11 @@ public class LocationTrackerActivity extends Activity {
         });
         Intent mServiceIntent = new Intent(this, LocationTrackerService.class);
         WakefulIntentService.sendWakefulWork(context, mServiceIntent);
-
-        CharSequence text = "Successfully installed! \n Location logging now active";
-        int duration = Toast.LENGTH_LONG;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
     }
 
     private void setAlarm(Context context) {
         ServiceAlarm alarm = new ServiceAlarm();
         LocationTrackerService.scheduleAlarms(alarm, context);
-
     }
 
     public static Instance getInstanceFromFeature(Features f) throws IOException {

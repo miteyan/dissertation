@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Location Logger</string>
-    <string name="title_activity">Location Logger</string>
+    <string name="app_name">Location Graph Classifier</string>
+    <string name="title_activity">Location Graph Classifier</string>
 
 </resources>

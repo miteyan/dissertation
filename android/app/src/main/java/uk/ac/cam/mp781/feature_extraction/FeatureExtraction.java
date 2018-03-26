@@ -1,10 +1,9 @@
-package uk.cam.ac.uk.mp781.feature_extraction;
+package uk.ac.cam.mp781.feature_extraction;
 
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package uk.cam.ac.uk.mp781.feature_extraction;
+package uk.ac.cam.mp781.feature_extraction;
 
 /**
  * Created by miteyan on 24/01/2018.
