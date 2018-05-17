@@ -38,11 +38,11 @@
 \title{Comparing Machine Learning Techniques for Mobility
 Graph Classification}
 \author{Miteyan Patel}
-% \college{Robinson College}
-% \collegeshield{CollegeShields/Robinson}
-% \submissiondate{20th May, 2018}
-% \date{May, 2018}
-% \subjectline{Computer Science}
+\college{Robinson College}
+\collegeshield{CollegeShields/Robinson}
+\submissiondate{20th May, 2018}
+\date{May, 2018}
+\subjectline{Computer Science}
 \begin{document}
 % \frontmatter{} 
 \pagestyle{empty}
@@ -64,7 +64,7 @@ Name:               & \bf Miteyan Patel                       \\
 College:            & \bf Robinson College                     \\
 Project Title:      & \bf Comparing Machine-Learning Techniques for\\&\bf Mobility Graph Classification\\
 Examination:        & \bf Computer Science Tripos -- Part II, June 2018  \\
-Word Count:         & \bf 11891\footnotemark[1]\\
+Word Count:         & \bf 11464\footnotemark[1]\\
 Project Originator: & \bf Dr S.~Servia                    \\
 Supervisor:         & \bf Dr S.~Servia                    \\ 
 \end{tabular}
@@ -73,7 +73,7 @@ Supervisor:         & \bf Dr S.~Servia                    \\
 
 \stepcounter{footnote}
 \section*{Original Aims of the Project}
-This project aims to investigate supervised machine learning algorithms for graph classification. Specifically, we are interested in graphs that represent users' mobility patterns which can be obtained from spatio-temporal data gathered with their smartphones. The evaluation of these algorithms is performed both on synthetic and spatio-temporal datasets. The best performing model is then to be incorporated to an Android application to infer users’ demographics from their mobility patterns.
+This project aims to investigate supervised machine learning algorithms for graph classification. Specifically, we are interested in graphs that represent users' mobility patterns, which can be obtained from spatio-temporal data gathered with their smartphones. The evaluation of these algorithms is performed both on synthetic and spatio-temporal datasets. The best performing model is incorporated to an Android application to infer users’ demographics from their mobility patterns.
 
 \section*{Work Completed}
 The dissertation was a success, meeting and extending the requirements. I have created graphs representing the mobility of users from the spatio-temporal datasets provided as well as a synthetic dataset. Then I applied  and evaluated several supervised learning algorithms, including Naive Bayes, Decision Trees, Random Forests, Support Vector Machines, MLPs, the CNN on Graphs with Fast Localized Spectral Filtering implementation and my own MLP implementation in Java. The best performing model trained using a real-world dataset was exported to an Android Application to infer several demographic variables such as gender and occupational status of the user based on their movement.
@@ -104,22 +104,21 @@ May, 2018\\
 %%
 \chapter{Introduction}
 \section{Motivation}
-Machine-learning techniques typically use structured, organised data, which restricts the domain of data that can be used. Unstructured data such as graphs do not have a pre-defined data model and arise commonly, for example in the domain of social and web networks and bioinformatics. Consequently, graph classification algorithms would open access to using vast amounts of currently unusable unstructured data.
-An interesting problem is the classification of \textit{mobility graphs}, where the nodes correspond to the locations visited by the user and edges as transitions between these locations. 
-This could be used for early detection of Alzheimer’s Disease from alterations in the movement patterns of its sufferers. The prominent prevalence of mobile phone usage allows us to ethically monitor and analyse users' locations by  solely local computations on the users' smartphones. 
-
-On-device machine learning has massive potential in the mobile domain. For example, optimising battery life through intelligent task management utilising usage patterns of the users applications~\cite{androido}, or to detect user well-being~\cite{well-being}. Furthermore, an external centralised server for data processing is no longer needed, eliminating concerns over the leaking of sensitive data over the network or through security flaws and also reducing data protection legislation concerns.
+Machine-learning techniques typically use structured, organised data, which restricts the domain of usable data. Unstructured data , such as graphs, does not have a pre-defined data model and arises commonly, for example in social networks, web networks and bioinformatics. Consequently, graph classification algorithms would allow access to vast amounts of currently unusable unstructured data.
+An interesting problem is the classification of \textit{mobility graphs}, where the nodes correspond to the locations visited by the user and edges to transitions between these locations. 
+This could be used for early detection of Alzheimer’s Disease from alterations in the movement patterns of its sufferers. The prominent prevalence of mobile phone usage allows us to ethically monitor and analyse users' locations by solely using local computations on the users' smartphones. 
+On-device machine learning has massive potential in the mobile domain. For example, optimising battery life through intelligent task management utilising usage patterns of the users applications~\cite{androido}, or to detect user well-being~\cite{well-being}. Furthermore, an external centralised server for data processing is no longer needed, eliminating concerns regarding the leaking of sensitive data through the network or through security flaws and also reducing data protection legislation concerns.
 \section{This Project}
-This dissertation details the development of an Android application that is capable of locally inferring the demographic class of its user. Mobility graphs extracted from spatio-temporal datasets are used to train a collection of supervised machine-learning algorithms, including a new Convolutional Neural Network architecture~\cite{CNN1}, from which the best model, Random Forest, is trained and transferred onto the application.
-The mobility graphs used for training are constructed from datasets containing user's demographic labels such as gender or occupation. The classifiers are optimised and then evaluated to determine the most suitable model to export to the application. The application collects and then clusters the location data into graphs, which are used to infer the users' demographic class, in particular their type of occupation. This project has the potential to impact the design of future applications for location tracking and classification analysis. \\
+This dissertation details the development of an Android application that runs all stages involved in the inference of the users' occupation class, with all required computations taking place solely on their smartphone. Mobility graphs extracted from spatio-temporal datasets are used to train a collection of supervised machine-learning algorithms, including a new Convolutional Neural Network architecture~\cite{CNN1}. The best model, Random Forest, is trained and transferred onto the application.
+The mobility graphs used for training are constructed from datasets containing user's demographic labels such as gender or occupation. The classifiers are optimised and evaluated to determine the best performing model to export to the application. The application collects and clusters the location data into graphs, which are later used to infer the users' demographic class, their occupation type. This project has the potential to impact the design of future applications for location tracking and classification analysis. \\
 \section{Related Work}
-Smart phones already use machine learning locally to do various tasks from predictive typing on keyboards to classifying images into folders and making suggested actions of highlighted text~\cite{androido}. Wearable technology like smart watches also make use of passive data collected from the sensors throughout the day to infer step counts, heart rate or even if the user could have an underlying disease~\cite{apple}.
+Smartphones already use machine-learning locally to do various tasks such as predictive typing on keyboards, classifying images into folders and making suggested actions of highlighted text~\cite{androido}. Wearable technology like smartwatches also make use of passive data collected from the sensors throughout the day to infer step counts, heart rate or even if the user could have an underlying disease~\cite{apple}.
 
 Regarding the machine learning algorithms used, CNNs~\citep{CNN1} have been applied to classify images, natural language texts, random synthetic graphs. However, to our knowledge, its application for mobility-graph classification is still to be investigated.\\
 \chapter{Preparation}
-My preparation consisted of learning about supervised machine-learning algorithms in order to optimize them for the task of mobility-graphs classification. Understanding techniques for evaluating the machine-learning algorithms was paramount in ensuring that the correct algorithm is chosen. Research in graph theory was done to find the most relevant features that could be used to classify graphs and to find techniques such as clustering to create the graphs from the raw location data. This chapter contains the algorithms used for clustering, graph feature extraction, supervised classification algorithms and software engineering practices used. 
+My preparation consisted of studying about supervised machine-learning algorithms in order to optimise them for the task of mobility-graphs classification. Understanding techniques for evaluating the machine-learning algorithms was paramount in ensuring that the correct algorithm was chosen. Research in graph-theory was done to find the most relevant features that could be used to classify graphs and to find techniques such as clustering to create the graphs from the raw location data. This chapter details the algorithms used for clustering, graph feature extraction, supervised classification algorithms and the software engineering practices used. 
 \section{Clustering}
-Location data needs to be grouped so that close together recordings are in the same cluster, which represents a single place the user has visited. Clustering will reduce the number of locations visited in the graph and increase the edge weight between the nodes. That makes the graphs simpler to process whilst conveying more information through greater edge weights than a graph simply representing each location as a node. 
+Location data needs to be grouped so that nearby location recordings are in the same cluster, which represents a single place the user has visited. Clustering will reduce the number of locations visited in the graph and increase the edge weight between the nodes. That makes the graphs simpler to process whilst conveying more information through greater edge weights than a graph simply representing each location as a node. 
 
 Clustering involves grouping data into sets in such a way that objects in the same group are more similar to each other than to those in other groups. 
 A useful algorithm for spatial clustering is the DBSCAN algorithm. It is efficient enough to work on Android phones. It also does not need the number of clusters to be specified as with k-means clustering, which is an ambiguous problem and depends on the data set.
@@ -168,8 +167,8 @@ Supervised learning algorithms are used to learn the mapping function from input
  A training set is composed of $n$ such training examples: $$\mathbf{s} = [(\mathbf{x_1}, y_1) (\mathbf{x_2}, y_2) ... (\mathbf{x_n}, y_n)]$$
 The goal is to approximate the mapping function, the hypothesis $h:  \R^{m} \rightarrow \mathbf{C}$, so for new input data $\mathbf{x}$, the output class for that data can be predicted. The following sections explain the theory behind the machine-learning techniques I use.
 \subsection{Naive Bayes Classifier}
-Naive Bayes classifier is a simple probabilistic classifier based on applying Bayes' theorem with the assumption between the features are independent. This is the major problem with this approach, since features derived from the graphs are likely dependent on each other. An advantage of Naive Bayes is that it only requires a small amount of training data to estimate the parameters necessary for classification.
-Bayes' theorem states describes the likelihood of an event $A$ given an event $B$ is true probability, based on prior knowledge of conditions that might be related to the event. 
+Naive Bayes classifier is a simple probabilistic classifier based on applying Bayes' theorem with the assumption that the features are independent of each other. This is the major problem with this approach, since features derived from the graphs are likely dependent on each other. An advantage of Naive Bayes is that it only requires a small amount of training data to estimate the parameters necessary for classification.
+Bayes' theorem describes the likelihood of an event given another event, for which the prior probabilities are known.
 $$ P(C_k \mid \mathbf{x}) = \frac{P(\mathbf{x} \mid C_k) \, P(C_k)}{P(\mathbf{x})} $$
 In reality only the numerator is of interest since the denominator does not depend on the class $\mathbf{C}$ so it is effectively a constant and can be discarded: 
 \begin{equation}
@@ -192,7 +191,7 @@ Therefore, the conditional probability of the class variable $C$ is:
 {P(C_k, x_1, x_2, ..., x_n)} & \propto P(C_k){\displaystyle \prod_{i=1}^{n} P(x_i \mid C_k)}
 \end{split}
 \end{equation}
-Finally, to construct the naive Bayes classifier the most probable hypothesis is chosen known as the maximum a posteriori decision rule and the corresponding Bayes classifier is the function that assigns a class label $\hat y = C_k$, for some class $C_k$ as:
+Finally, to construct the naive Bayes classifier the most probable hypothesis is chosen known as the maximum a posteriori decision rule. The corresponding Bayes classifier is the function that assigns a class label $\hat y = C_k$, for some class $C_k$ as:
 \begin{equation}
 \begin{split}
 \hat y = \argmax_k  P(C_k){\displaystyle \prod_{i=1}^{n} P(x_i \mid C_k)}
@@ -258,7 +257,7 @@ $$k(\mathbf{x}_i,\mathbf{x}) = \tanh(\alpha \mathbf{x}_i \mathbf{x}^\mathsf{T} +
 % In one vs one a separate classifier is trained for each different pair of labels. This leads to $N(N-1)/2$ classifiers. This is much less sensitive to the problems of imbalanced datasets but is more computationally expensive.
 
 \subsection{Decision Trees}
-The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features. It allows the model to be visualised so the results can be more easily reasoned about compared to other machine-learning algorithms. However, the trees are prone to learn the specific training examples, known as overfitting, particularly if the tree is deep. A rooted tree is constructed with each branch containing observations about the item of data. The observations are used to traverse down the tree until the conclusion about the data is retrieved at the leaf nodes of the tree. 
+The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features. It allows the model to be visualised so that the results can be more easily reasoned about compared to other machine-learning algorithms. However, the trees are prone to learn the specific training examples, known as overfitting, particularly if the tree is deep. A rooted tree is constructed with each branch containing observations about the item of data. The observations are used to traverse down the tree until the conclusion about the data is retrieved at the leaf nodes of the tree. 
 Figure \ref{fig:decision} is a decision tree where $o_i$ are observations and $C_i$ are classes. Classes are inferred by traversing the tree from the root observation to the leaves which are the classes.
 \begin{figure}[H]
 $$\begin{forest}
@@ -288,12 +287,12 @@ $$
 
 \end{figure}
 \subsection{Random Forests}
-Random forests are an ensemble of decision trees. Random forests prevent overfitting experienced by single decision trees by constructing many different decision trees using only certain subset of the feature vector during training. Overall, although each tree will only incorporate a small random subset of features, collectively most or all of the features will be used by all of the trees. This randomness prevents highly correlated trees since a few features that are particularly predictive could be used to construct the trees with a small training error, but may not generalise well to new examples. The modal class that of all the decision trees is used for the class inference.
+Random forests are an ensemble of decision trees. Random forests prevent overfitting experienced by single decision trees by constructing many different decision trees using only certain subset of the feature vector during training. Overall, although each tree will only incorporate a small random subset of features, collectively most or all of the features will be used by all of the trees. This randomness prevents highly correlated trees since a few features that are particularly predictive could be used to construct the trees with a small training error, but may not generalise well to new examples. The most commonly inferred class by the individual decision trees is used as the result class. 
 \subsection{Neural Networks}
-Based on the extravagantly complex neuron networks in the brain, neural networks, offer a commonly used technique for regression and classification problems. 
-The goal is to define a function $f(\mathbf{x};\mathbf{w}, \mathbf{b}$), to approximate the hypothesis function, where $\mathbf{x}$ is the input vector, $\mathbf{w}$ and $\mathbf{b}$ are the weights and biases in the network.During the training phase the values of weights and biases that minimise a loss function are learnt. A loss function defines the measure of the error when estimating $y$ from $\mathbf{x}$ to its actual class. The following sections describe the components of the Neural Network. \\
+Based on the extravagantly complex neuron connections in the brain,  neural networks are a commonly used technique for regression and classification problems. 
+Their goal is to define a function $f(\mathbf{x};\mathbf{w}, \mathbf{b}$), to approximate the hypothesis function, where $\mathbf{x}$ is the input vector, $\mathbf{w}$ and $\mathbf{b}$ are the weights and biases in the network. During the training phase the values of weights and biases that minimise a loss function are learnt. A loss function defines the measure of the error when estimating $y$ from $\mathbf{x}$ to its actual class. The following sections describe the components of the Neural Network. \\
 \subsubsection{Perceptron}
-A perceptron, shown in Figure \ref{fig:Perceptron}, on its own is a linear classifier which makes predictions based on a linear combination of the weights and input features. The output of the perceptron result of the activation function applied to the the cross product between the weights and input. The constant-valued input 1 for $x_0$ is known as a bias input, which is weighted by a bias weight variable, $w_0$. This allows the output to be shifted which allows for a larger range of values. 
+A perceptron, shown in Figure \ref{fig:Perceptron}, is a linear classifier which makes predictions based on a linear combination of the weights and input features. The output of the perceptron result of the activation function applied to the the cross product between the weights and input. The constant-valued input 1 for $x_0$ is known as a bias input, which is weighted by a bias weight variable, $w_0$. This allows the output to be shifted which allows for a larger range of values. 
 $$
 h(w; x)= \sigma (\sum_{i=0}^{n}w_i x_i) = \sigma (\bf{w}^T \bf{x})
 $$
@@ -335,7 +334,7 @@ $$
 \caption{A diagram of a perceptron showing the action of a cross product applied to the input vector \textbf{x} and weights \textbf{w}, followed by an activation function such as the sigmoid. } \label{fig:Perceptron}
 \end{figure}
 \subsubsection{Multi-layered Perceptron}
-Perceptrons on their own are not powerful enough to generalise to more complex non-linear functions. A multilayer perceptron is a collection of fully connected perceptrons, consisting of input, internal hidden and output layers connected by the non-linear activation functions to generate non-linearity. Every perceptron is connected to at least another in the layer in front with a weight, shown in Figure \ref{fig:multilayer-perceptron}. Learning occurs in the perceptron by changing connection weights after processing the training data, based on the amount of error in the output compared to the expected result, through backpropagation (Section 2.3.5.5). 
+Perceptrons on their own are not powerful enough to generalise to more complex non-linear functions. A multilayer perceptron is a collection of fully connected perceptrons, consisting of input, hidden and output layers connected by non-linear activation functions. Every perceptron is connected to at least another in the next layer with a weight, shown in Figure \ref{fig:multilayer-perceptron}. Learning occurs in the perceptron by changing connection weights after processing the training data, based on the amount of error in the output compared to the expected result, through backpropagation (Section 2.3.5.5). 
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}[shorten >=1pt]
@@ -457,7 +456,7 @@ The activation function is a non-linear function, which allows a neural network 
     	\caption[Sigmoidal activation functions.]{Commonly used activation functions including the logistic sigmoid $\sigma(z)$, the hyperbolic tangent $tanh(z)$, ReLU and leaky ReLU.}
     	\label{fig:sigmoid-tanh}
 \end{figure}
-The Sigmoid function as seen in Figure \ref{fig:sigmoid-tanh} is commonly used in neural networks. 
+The Sigmoid function (Figure \ref{fig:sigmoid-tanh}) is commonly used in neural networks. 
 Rectified Linear Units (ReLUs) are commonly used in CNNs, as they perform better in practice. However, for negative inputs the gradient is zero and the weights are not updated during back propagation as the derivative is undefined. This can create dead neurons, which never get activated. The leaky ReLU solves this by replacing the zero gradient section by a line with a small gradient so there are no more dead neurons for better classification. 
 \subsubsection{Gradient Descent}
 Gradient descent is an optimisation technique to reduce the error over the whole network to improve the mapping between the input features and the output classes. The differentiable error term $E(\mathbf{w})$ is defined, which is the squared difference between what the network is currently outputting $h(\mathbf{w,x}_i$) for the training data $\mathbf{x}_i$ and the actual class that data belongs to $y_i$:
@@ -468,7 +467,7 @@ We try to minimise the error term for the whole network $E(\textbf{w})$ by adjus
 $$
 \mathbf{w}_{t+1} = \mathbf{w}_t - \eta \frac{\partial E(\textbf{w})}{\partial \mathbf{w}}
 $$
-The learning rate, $\eta$, is a parameter which is a small positive number which controls the rate at which weights are updated. It is a trade-off between training time (with a large learning rate) and greater accuracy (using a smaller learning rate). In practice an adaptive learning rate is used which slowly decreases as the weights converge to reducing the error rate. This prevents getting stuck in a local minima, a sub-optimal solution. The partial differential term is the direction of the steepest decrease in error and so the weight is updated to decrease the error. For our error term where $\mathbf{x}_{i}^j$ is the jth element of $\mathbf{x}_i$ we have:
+The learning rate, $\eta$, is a small positive number that controls the rate at which weights are updated. It is a trade-off between training time (with a large learning rate) and accuracy (higher with a smaller learning rate). In practice an adaptive learning rate is used, which slowly decreases as the weights converge to reducing the error rate. This prevents getting stuck in a local minima, a sub-optimal solution. The partial differential term is the direction of the steepest decrease in error and so the weight is updated to decrease the error. For our error term where $\mathbf{x}_{i}^j$ is the $jth$ element of $\mathbf{x}_i$ we have:
 $$
 \frac{\partial E(\textbf{w})}{\partial  w_j} = -2 \sum_{i=1}^{n} \mathbf{x}_{i}^j (y_i - h(\mathbf{w};\mathbf{x}_i))
 $$
@@ -478,7 +477,7 @@ $$
 $$
 We can stop once the error differences is smaller than a threshold value or a set number of iterations.
 \subsubsection{Backpropagation}
-The goal of backpropagation algorithm is to find a set of weights for the entire multi-layered perceptron network that minimises the error term using the gradient descent algorithm. To do this we need to find  $\frac{\partial E(\textbf{w})}{\partial \mathbf{w}}$ for the entire network which needs the calculation of $\frac{\partial E(\textbf{w})}{\partial {w}_{i,j}}$, for each weight ${w}_{i,j}$ in the network. The total error in the network produces over the entire training set is now defined as $E(\textbf{w}) = \sum_{i=1}^{n} E_i(\mathbf{w})$ and $\frac{\partial E(\textbf{w})}{\partial \mathbf{w}} =  \sum_{i=1}^{n} 
+The goal of backpropagation is to find a set of weights for the entire multi-layered perceptron network that minimises the error term using the gradient descent algorithm. To do this we need to find  $\frac{\partial E(\textbf{w})}{\partial \mathbf{w}}$ for the entire network which needs the calculation of $\frac{\partial E(\textbf{w})}{\partial {w}_{i,j}}$, for each weight ${w}_{i,j}$ in the network. The total error in the network produced over the entire training set is now defined as $E(\textbf{w}) = \sum_{i=1}^{n} E_i(\mathbf{w})$ and $\frac{\partial E(\textbf{w})}{\partial \mathbf{w}} =  \sum_{i=1}^{n} 
 \frac{\partial E_i(\mathbf{w})}{\partial \mathbf{w}}$.
 The algorithm consists of two phases, propagation and weight update:\\
 \textbf{Propagation}
@@ -524,7 +523,7 @@ line/.style={draw}
 The softmax function creates a probability distribution over $K$ different possible outputs, where the $\sum_{j=1}^{K}\sigma(\mathbf{z}_j) = 1$. It is applied to the final fully connected layer to ensure the sum of the activations for all the neurons is 1 to allow inference for the most likely class. 
 $$ \sigma(\mathbf{z}_j) = \frac{e^{z_j}}{\sum_{k=1}^{K} e^{z_k}}$$
 \subsection{Convolution Neural Networks}
-CNNs are based on the Neural Network architecture but use convolutions between the weight layers and the input features. The CNN inner or hidden layers unlike Neural Networks are composed of specific convolutional, pooling, fully connected and normalization layers. Filters are convolved over each layer which extracts useful features. Each subsequent layer is more compressed and abstract in the features it can represent until finally a fully connected layer represents the class labels. Below each layer is described, which are shown in Figure \ref{fig:cnn}.
+CNNs are based on the Neural Network architecture but use convolutions between the weight layers and the input features. The CNN inner or hidden layers unlike Neural Networks are composed of specific convolutional, pooling, fully connected and normalization layers. Filters are convolved over each layer to extract useful features. Each subsequent layer is more compressed and abstract in the features it can represent until finally a fully connected layer represents the class labels. Below each layer is described, which are shown in Figure \ref{fig:cnn}.
 \graphicspath{{images/}}
 \begin{figure}[H]
 \centering
@@ -532,47 +531,50 @@ CNNs are based on the Neural Network architecture but use convolutions between t
 \caption{An example diagram of a CNN architecture showing the different layers and operations~\cite{cnn}.}\label{fig:cnn}
 \end{figure}
 \subsubsection{Convolutional Layer}
-The convolutional layer applies a convolution operator to the input layers and the result of this is passed onto the next layer. It mimics the response of neurons to visual stimuli in their receptive fields. An activation function, typically a ReLU or Leaky ReLU is usually used after convolution operations. It adds non-linearity back into the data since convolution operations are linear and most real world data is non linear too. Using non-linear activation functions allow for a larger class of functions to be approximated.
+The convolutional layer applies a convolution operator to the input layers and the result of this is passed onto the next layer. It mimics the response of neurons to visual stimuli in their receptive fields. An activation function, typically a ReLU or Leaky ReLU is usually used after convolution operations. It adds non-linearity back into the data since convolution operations are linear and most real world data is non-linear. Using non-linear activation functions allow for a larger class of functions to be approximated.
 \subsubsection{Pooling Layers}
-Pooling layers are used to reduce the size of the layers. They can take multiple neurons from one layer and output a single reduced neuron to the next layer. For example, max pooling is where the maximum value of the cluster of neurons is used as the output, or average pooling where the mean average of the neuron cluster is used. It reduces the number of parameters making network more manageable, reducing overfitting and makes the network less sensitive to small input changes. 
+Pooling layers are used to reduce the size of the layers. They can take multiple neurons from one layer and output a single reduced neuron to the next layer. For example, max pooling is where the maximum value of the cluster of neurons is used as the output, or average pooling where the mean average of the neuron cluster is used. It reduces the number of parameters making network more manageable, reducing overfitting and making the network less sensitive to small input changes. 
 \subsubsection{Fully Connected Layers}
 A fully connected layer connects every neuron from the input layer to every neuron in the output layer. This is usually done at the output layer to get the resulting class by identifying the neuron with the largest response after the softmax function has been applied. 
-\subsubsection{Training And Inference}
-The overall process involves initialising the filters and weights with random values and then feeding the input data forward through the network through the convolution, ReLU, pooling and fully connected operations. The error is then calculated between the target class and predicted class with a loss function. Backpropagation is used to update all the filters and weight values to minimize the error for subsequent training steps. This is repeated for all of the training examples and allows it to generalise well towards new unseen examples. The size of the layers, parameters and filters are fixed from the start so to find out the best combinations an additional validation set can be used to optimise for the best test accuracy. 
+\subsubsection{Training and Inference}
+The overall process involves initialising the filters and weights with random values and then feeding the input data forward through the network using the convolution, ReLU, pooling and fully connected operations. The error is then calculated between the target class and predicted class with a loss function. Backpropagation is used to update all the filters and weight values to minimise the error for subsequent training steps. This is repeated for all of the training examples and allows the network to generalise well towards new unseen examples. The size of the layers, parameters and filters are fixed from the start so to find out the best combinations an additional validation set can be used to optimise for the best test accuracy. 
 \section{Android Application}
 % services, specific android not project. APIs. Alarms, Activities, timers, Location sensors. in subheadings. This is too specific to the implementation of the app.
 The Android application is built using Java and Android Studio. Android applications typically make use of the five classes detailed below:
 \subsection{Activities}
-\textit{Activities} interact with the user, the Activity class creates a window for the UI and be embedded inside of another activity, or can be a full-screen or floating window. Most subclasses of the Activity class implement \textit{onCreate} and \textit{onPause} methods to initialize the activity and deal with the user leaving the activity.
+\textit{Activities} are used to interact with the user. The Activity class creates a window for the UI and be embedded inside of another activity, or can be a full-screen or floating window. Most subclasses of the Activity class implement \textit{onCreate} and \textit{onPause} methods to initialise the activity and deal with the user leaving the activity.
 \subsection{View}
 The \textit{View} class represents a building block for the UI. A View occupies an area on the screen and is responsible for drawing and event handling. 
 \subsection{Intent}
-\textit{Intents} are a passive data structure holding an abstract description of an action to be performed. They can be used to launch Activities, start Services, communicate with Services and more.
+\textit{Intents} are a passive data structure holding an abstract description of an action to be performed. They can be used to launch Activities, start Services, communicate with Services, etc.
 \subsection{Services}
 \textit{Services} perform long-running operations in the background and continue to run in the background even if the user switches to another application.
 \subsection{Alarm}
-\textit{Alarms} allow the application to be run at some point in the future. When the alarm is activated the Intent registered with it is run and starts the target application. 
+\textit{Alarms} allow the application to be run at a specified times. An Intent is registered with the alarm so that when the alarm goes of the Intent can be run which can be used to start a task, service or a target application.
 \section{Software Engineering}
 This section deals with the requirements set out, early decisions made, tools used to deliver the project in an organised, timely fashion. Allowing me to experiment and iterate with new techniques quickly, I chose to use an iterative software development. It allows continual improvements to be made to improve the quality of the classifiers, dataset and extracted graphs.
 \subsection{Implementation Approach}
 Prior to development of a large-scale project such as this, it is important to break down the project. Discrete milestones, stages and tests for the project to measure progress are defined. The Android application is tested using the Android Profiler \cite{profiler} to outline the CPU and memory utilisation to ensure the application is efficient. Work begins processing the datasets and creating graphs from these. Learning algorithms were applied to the data and then these were evaluated. The best of these algorithms evaluated is exported to the Android application.
 \subsection{Development}
-Development work was done on my MacBook running Mac OS 10.12. Training and testing the algorithms were done on a remote server provided by the Systems Research Group to ensure no sensitive data is leaked out of the server it resides on. I used a OnePlus 5T Android smartphone with Android Oreo to test the application.
+Development work was done on a MacBook running Mac OS 10.12. Training and testing the algorithms were done on a remote server provided by the Systems Research Group to ensure no sensitive data is leaked out of the server it resides on. I used a OnePlus 5T Android smartphone with Android Oreo to test the application.
 \subsection{Ethics}
-Due to the sensitivity of the data contained in the datasets ethical approval from the Computer Lab ethics committee was obtained. The approval was condition on using the data solely on the private server. This is important as we are dealing with very sensitive data as well as to comply with the privacy policy that users previously signed.
+Due to the sensitivity of the data contained in the datasets, ethical approval from the Computer Lab ethics committee was obtained. The approval was condition on using the data solely on the private server. This is important as we are dealing with very sensitive data as well as to comply with the privacy policy that users previously signed.
 \subsection{Version Control}
 Version control is essential in any project of this size to organise the code base and for tracking and reverting changes made. I used Git for version control for the project code and writing the dissertation paper, these were synchronised onto a GitHub repository\footnotemark[2].
 \footnotetext[2]{ \url{https://github.com/miteyan/dissertation}}
 
 \subsection{Build Tools}
-I used PyCharm for building and testing the Python code since it contains a SSH server interface for accessing the dataset stored on its private server, preventing sensitive information from leaking.\\
+I used PyCharm for building and testing the Python code since it contains a SSH server interface for accessing the dataset stored on its private server, preventing sensitive information from data breaches.\\
 \subsection{Languages}
-The machine-learning libraries and NetworkX were written in Python, allowing me to quickly experiment with different techniques. It was unclear if graph-feature extraction would need to be ported to the Android application since the graph CNN algorithm would not have required this. The Android application uses Java so Weka and JUNG Java libraries were used.
+The machine-learning libraries and NetworkX are in Python, allowing me to quickly experiment with different techniques. It was unclear if graph-feature extraction would need to be ported to the Android application since the graph CNN algorithm would not have required this. The Android application uses Java. Thus, Weka and JUNG Java libraries were used \cite{WEKA, JUNG}.
 \section{Starting Point}
-The implementation of the CNNs on Graphs with Fast Localized Spectral Filtering\citep{CNN1} was available and applied to the graphs built. There were also graphs associated with the datasets, which were used along with the DBSCAN graphs created. I was provided an Android application developed by the SRG group as part of a research project to collect location data. This was modified to prevent data being sent to the server, to allow clustering and graph-edge list formation, and run the classifier locally.\\
+The implementation of the CNNs on Graphs with Fast Localized Spectral Filtering\citep{CNN1} was available and applied to the graphs built. There were also graphs associated with the datasets, which were used along with the DBSCAN graphs created. 
+
+
+I was provided an Android application developed by the SRG group as part of a research project that collected GPS data every 30 seconds in the background. This was modified to prevent data being sent to the server, to allow clustering, graph-edge list formation, and run the classifier locally on the mobile phone..\\
 \subsection{Libraries}
 % model brings details of real users into. Data sparsity. Not sensitive data. Eg depressed vs not is sensitive. Using graph not specific locations of the users and not leaking the users locations/houses. Why apply for ethics. Why important when using users data. could be leaking. mention throughout.
-Table 2.7 contains an overview of the libraries used, the purpose and the licence for each.
+Figure 2.7 contains an overview of the libraries used, the purpose and the licence for each.
 \begin{figure}[H]
 \begin{center}
 \begin{tabular}{ |c|c|c|c| } 
@@ -614,20 +616,20 @@ Figure 2.8 shows the experience prior to starting the project.
 \section{Requirements}
 The success requirements set out in the project proposal were:
 \begin{itemize}
-\item Training, optimising, and evaluating the performance of the supervised machine-learning algorithms on features extracted from mobility graphs.
+\item Training, optimising, and evaluating the performance of the supervised machine-learning algorithms on mobility graphs.
 \item Applying the CNN algorithm to the mobility graphs constructed from raw location data to classify the user into their demographic class.
-\item  Evaluating the models quantitatively, then trained and ported the best performing of these onto the Android application.
+\item  Evaluating the models quantitatively, then training and porting the best performing of these onto the Android application.
 \item  Implementing an Android application which can extract mobility graphs from the users location and infer the demographic class of the user locally on the device.
 \end{itemize}
 % CHAPTER 3
 \chapter{Implementation}
-In this chapter I summarise the implementation of the data preprocessing, graph constructions, training, comparison of the machine-learning algorithms and the training and porting of the best performing algorithm onto an Android application.
+In this chapter I summarise the implementation of the data preprocessing, graph constructions, training, comparison of the machine-learning algorithms, the training and porting of the best performing algorithm onto an Android application.
 \section{System Overview}
 The system composition is detailed in Figure \ref{fig:sys}. Clustering algorithms are applied to group together nearby locations to form the nodes and transitions between these to form the edges of the mobility graph from the spatio-temporal datasets. The graph CNN algorithm is directly applied to the mobility-graphs. Further feature extraction is done based on Section 2.2 to apply classic supervised classification algorithms as described in Section 2.3. The best classifier is then trained and incorporated to the Android application to make local inferences of the user based on their location data.
 \graphicspath{{images/}}
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.17]{sysdiagram.png}
+\includegraphics[scale=0.14]{sysdiagram.png}
 \caption{A diagram showing the different components of the project.}\label{fig:sys}
 \end{figure}
 % \begin{algorithm}
@@ -643,7 +645,7 @@ The system composition is detailed in Figure \ref{fig:sys}. Clustering algorithm
 % \end{algorithmic}
 % \end{algorithm}
 \section{Spatio-Temporal Datasets}
-Table 3.1 describes the datasets, preprocessing and classes inferred using the models. The datasets comprised of time and latitude-longitude pairs for each user. The models perform the classification tasks as shown in Table \ref{table:datasets}. Users whose graphs were disconnected once clustered were discarded, since not all graph features chosen are defined on disconnected graphs. Disconnected graphs can form when the user has not recorded location data consistently creating large discrepancies between location recordings creating partitions between the clusters.
+Table \ref{table:datasets} describes the datasets, preprocessing and classes inferred using the models. The datasets comprised of time and latitude-longitude pairs for each user. Users whose graphs were disconnected once clustered were discarded, since not all graph features chosen are defined on disconnected graphs. Disconnected graphs can happen because when the user has not recorded location data consistently, creating large discrepancies between location recordings creating partitions across the clusters.
 \begin{table}[H]
 \begin{tabular}{ |l|l|l|l| }
 \hline
@@ -661,7 +663,7 @@ Table 3.1 describes the datasets, preprocessing and classes inferred using the m
 \label{table:datasets}
 \end{table}
 \subsection{Mobile Data Challenge Dataset}
-The Mobile Data Challenge (MDC) dataset is composed of smartphone data collected through a user study in Lausanne, Switzerland. The graphs created over a longer duration contain more information as more locations are visited. This translates to more nodes and edges in the mobility graphs for the classifiers to exploit. Therefore, the graphs were initially made for each user for each year, however this only resulted in 493 usable graphs. Many classification algorithms require more data to perform better, such as CNNs, whereas decision trees perform well enough with less data. Therefore, weekly graphs were also made to increase the count of the graph training data. 
+The Mobile Data Challenge (MDC) dataset is composed of smartphone data collected through a user study in Lausanne, Switzerland. The graphs created over longer durations contain more information as more locations are visited. This translates to more nodes and edges in the mobility graphs for the classifiers to exploit. Therefore, the graphs were initially made for each user for each year, however this only resulted in 493 usable graphs. Many classification algorithms require more data to perform better, such as CNNs, whereas decision trees perform well enough with less data. Weekly graphs were also made to increase the count of the graph training data. 
 \subsubsection{Gender Labels}
 The gender distribution of the users is unbalanced, as shown in Figure \ref{fig:gender}. It is important to ensure the model is trained in an unbiased way so the lowest quality male graphs are removed to have a balanced split between the genders. Using an unbalanced labelled dataset translates to a more biased view made by the models towards the larger class, since that class holds a larger representation. In reality, genders are distributed evenly so the prediction accuracy would therefore be lower when the model is used because it would favour predicting the label that has a higher representation in the dataset.
 \begin{figure}[H]
@@ -678,31 +680,30 @@ The gender distribution of the users is unbalanced, as shown in Figure \ref{fig:
 \label{fig:gender}
 \end{figure}
 \subsubsection{Age Labels}
+As Figure \ref{fig:hist} shows there are two prominent age categories consisting of users aged 30-40 and 40-50 and so for a suitable split in a two-class classification problem to be consistent with the other models to allow for a fair evaluation I chose the two age classes as "less than the age of 40" and "more than 40". I also hypothesised that younger users would have different movements to older users due to differences in lifestyle and social factors so this split could have differences that the classifiers could exploit. 
 \graphicspath{{images/}}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{hist.png}
 \caption{A distribution of the number of users in each age class.}\label{fig:hist}
 \end{figure}
-As Figure \ref{fig:hist} shows there are two prominent age categories consisting of users aged 30-40 and 40-50 and so for a suitable split in a two-class classification problem to be consistent with the other models to allow for a fair evaluation I chose the two age classes as "less than the age of 40" and "more than 40". I also hypothesised that younger users would have different movements to older users due to differences in lifestyle and social factors so this split could have differences that the classifiers could exploit. 
 \subsection{EmotionSense Dataset}
-The Mobile Challenge dataset only contained demographic labels for age and gender that could be used as labels for  the graphs. The EmotionSense dataset also offered occupation data~\cite{emotion}. It could be theorized that there would be more of a variation between the graphs of users with different occupations compared to the gender or age labels as generally the employed would visit the same work place often whereas the unemployed may not have such a routine.
+The Mobile Challenge dataset only contained demographic labels for age and gender that could be used as labels for  the graphs. The EmotionSense dataset also offered occupation data~\cite{emotion}. It could be theorised that there would be more of a variation between the graphs of users with different occupations compared to the gender or age labels as generally the employed would visit the same work place often whereas the unemployed may not have such a routine.
 \subsubsection{Occupation Labels}
+As seen in Figure \ref{fig:occ} there are more users in the full-time employed occupation category and there are categories with far less users such as the home-makers and the retired. I chose a One-vs-All classifier for this problem to best exploit the amount of data we have available to prevent discarding data when balancing the dataset. Therefore, it makes sense to classify between full-time employed users and all other users as these two classes contain nearly the same number of users .
 \graphicspath{{images/}}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.51]{occupation2.png}
 \caption{A distribution of the number of users in each occupation group.}\label{fig:occ}
 \end{figure}
-As seen in Figure \ref{fig:occ} there are more users in the full-time employed occupation category and there are categories with far less users such as the home-makers and the retired. I chose a One-vs-All classifier for this problem to best exploit the amount of data we have available to prevent discarding data when balancing the dataset. Therefore, it makes sense to classify between full-time employed users and all other users as these two classes contain nearly the same number of users .
-
 \subsection{Synthetic Graph Dataset}
 Synthetic graphs are created to ensure we have graphs with statistical differences in case the graphs constructed from the datasets do not generate statistically different graphs for the labels chosen. This will allow us to determine if the techniques used in the project can successfully classify graphs.
-I modify the Erdos-Renyi random graph algorithm \cite{erdos}, described in Section 3.2.3.1, which is used to create random graphs with a known probability distribution. I chose to create graphs of 50 nodes to give the classifiers more information to work whilst minimising the feature extraction and training times. 
+I modify the Erdos-Renyi random graph algorithm \cite{erdos}, which is used to create random graphs with a known probability distribution. I chose to create graphs of 50 nodes to give the classifiers more information to work whilst minimising the feature extraction and training times. 
 \paragraph{The Erdos-Renyi Graph Generation Algorithm}
 
 
-Erdos-Renyi algorithm, shown in Algorithm \ref{alg:erdos}, is used to create random graphs. An edge is created between two nodes randomly with the Bernoulli distribution with probability \textit{probEdge}. A simple modification allows an edge weight to be upto \textit{maxWeight}, as seen in Algorithm \ref{alg:erdos}. 
+Erdos-Renyi algorithm, shown in Algorithm \ref{alg:erdos}, is used to create random graphs. An edge is created between two nodes randomly with the Bernoulli distribution with probability \textit{probEdge}. A simple modification allows an edge weight to be up to \textit{maxWeight}, as seen in Algorithm \ref{alg:erdos}. 
 To create an edge list we simply sort the edges and use run length encoding to concatenate equivalent edges.  
 \begin{algorithm}[H]
 \caption{Erdos-Renyi algorithm for weighted graph edge lists}
@@ -727,23 +728,23 @@ To create an edge list we simply sort the edges and use run length encoding to c
 The \textit{probEdge} used was 0.1 as that reflected the graphs from the spatio-temporal dataset the best when looking at the number of edges for the nodes. The \textit{maxWeight} was chosen to be 10 as the range of transitions between locations was in the range of 0 to 10 from the graphs constructed prior. 
 
 \subsection{Clustering}
-Clustering is used as a pre-processing step before constructing the graphs by grouping together locations from the dataset to form nodes of the graph. Clusters consist of close-together locations to signify a visited region. Using the start and end times the user was at each cluster the transitions between the clusters can be calculated to create the edge lists. I implemented the DBSCAN algorithm in Java so it also worked on the Android application. The parameters that worked for the DBSCAN in practice were using 5 metres for the \textit{minDistance} and 5 minimum nodes are needed to form a cluster. This ensures that any large building the user is in, such as at school or work, can be represented as a single node. 
+Clustering is used as a pre-processing step before constructing the graphs by grouping together locations from the dataset to form the nodes of the graph. Clusters consist of close-together locations to signify a visited region. Using the start and end times the user was at each cluster, the transitions between the clusters can be calculated to create the edge lists. I implemented the DBSCAN algorithm in Java so it also worked on the Android application. The parameters that worked for the DBSCAN in practice were 5 metres for the \textit{minDistance} and 5 minimum nodes needed to form a cluster. This ensures that any large building the user is in, such as at school or work, can be represented as a single node. 
 \subsection{Graph Feature Extraction}
-The construction of feature vectors for supervised machine learning comprised of using two libraries for retrieving the feature defined in Section 2.2.1. Initially I used the Python library NetworkX to extract the same features; however when porting to the Android Application there was no corresponding library and so Java library JUNG2 was chosen due to its ability to construct the same feature vectors. These were tested to be equal by using the same edge lists and comparing the feature vectors composed by both. \\ 
+The construction of feature vectors for supervised machine learning dealt of using two libraries for retrieving the features defined in Section 2.2.1. Initially I used the Python library NetworkX to extract the same features; however when porting to the Android Application there was no corresponding library and so Java library JUNG was chosen due to its ability to construct the same feature vectors. These were tested to be equal by using the same edge lists and comparing the feature vectors composed by both. \\ 
 The result is a dataset composed of the feature vector and class label extracted from each graph.
 \section{Supervised Machine Learning Algorithms}
 The implementation of the project focused on the evaluation of the models and improving their performance. 
 % The data is used for nested cross-validation, then the best hyperparameters for training the models are found, and then the evaluation metrics are computed. This allows an unbiased way to estimate hyperparameters, train and evaluate the model, while using the entirety of the available dataset, which is important due to the limited dataset size.
-In the following section I detail the techniques I used to optimize the different models. 
+In the following section I detail the techniques I used to optimise the different models. 
 \subsection{Hyperparameter Optimisation}
 A \textit{hyperparameter} is a value set before the learning algorithm begins. All other parameters are derived via training. However we can use optimisation techniques to get a better intuition to what these values should be set to instead of guessing.
 Hyperparameter optimization~\cite{hyperparameter} is the tuning of set of parameters required by a learning algorithm. It is essentially a search to find the optimal parameters by carrying out the training phase of the learning algorithm and looking for the parameters that correspond to the best performance which can be seen by the lowest loss value or best accuracies. Two common approaches used are grid search and random search.
-\subsubsection{Grid Search}
+\paragraph{Grid Search}
 Grid search involves manually specifying a list of hyperparameters and then exhaustively searching through combinations to determine the best choice of hyperparameters. This choice is good for when the range of the hyperparameters is known and to give the process guidance, therefore I used this technique with classifiers such as the SVM, Decision Tree and Random Forest since the parameters for these are mainly discrete and in a small range. However, it misses out values of hyperparameters that are not in between the parameters defined in the list provided outside the grid in favour of a smaller execution time from searching less variables.
-\subsubsection{Random Search}
-Random search needs a range of values each hyperparameter can take and the number of iterations to evaluate these parameters. This is a good choice when there can be a large range of values that are not intuitive to think about. I used this technique for the Neural Network implementation as there are so many values the weight neurons can take, as well as the sizes and number of layers.
+\paragraph{Random Search}
+Random search needs a range of values each hyperparameter can take and the number of iterations to evaluate these parameters. This is a good choice when there can be a large range of values that are not intuitive to think about. I used this technique for the Neural Network implementation as there are so many values for the possible size and number of layers.
 \subsection{Nested Cross Validation}
-Nested cross validation~\cite{nestedcrossvalidation} is used to train and test the classification algorithms with the entirety of the dataset.  This maximises the usage of the dataset whilst reducing selection bias. It involves an outer loop to split the data into training and test sets, and the inner loop is used to find the best hyperparameters of the model. Then the model is fit to these hyperparameters and then evaluated using the independent unseen test fold created by the outer loop. At the end the hyperparameters for the algorithm will be known as well as the metrics such as accuracy, loss associated with using these hyperparameters. Figure \ref{fig:nestedcv} shows the cross validation used in the project.
+Nested cross validation~\cite{nestedcrossvalidation} is used to train and test the classification algorithms with the entire dataset.  This maximises the usage of the dataset whilst reducing selection bias. It involves an outer loop to split the data into training and test sets, and the inner loop is used to find the best hyperparameters of the model. Then the model is fit to these hyperparameters and then evaluated using the independent unseen test fold created by the outer loop. At the end, the hyperparameters for the algorithm will be known as well as the metrics such as accuracy and loss associated with using these hyperparameters. Figure \ref{fig:nestedcv} shows the cross-validation used in the project.
 \graphicspath{{images/}}
 \begin{figure}[H]
 \centering
@@ -767,16 +768,19 @@ gradient descent as described earlier. The algorithm calculates an exponential m
 Dropout is a regularization technique for reducing overfitting in neural networks during the training phase. It involves randomly removing hidden or visible units and their connections from the network to ensure that the network does not depend on a few units~\cite{dropout}. Therefore nodes are excluded from the net with a given probability. Only the reduced network is trained on the data in that stage. The removed nodes are then reinserted into the network with their original weights and prevents overfitting because not all of the nodes are trained on the same examples.
 \subsection{Sci-kit Learn}
 Sci-kit learn contains many machine-learning and data-analysis techniques to allow trying various algorithms. It was used to apply the standard classifiers including Decision Trees, Random Forests, SVMs, Naive Bayes. A nested cross-validation and metrics-gathering platform with hyperparameter optimisation was built on top. 
-\subsubsection{Decision Trees}
+\paragraph{Decision Trees}
 For the Decision Tree algorithm the following hyperparameters were used: 
-\textit{Maximum depth} of the tree which is used to control the size of the tree to prevent overfitting. \textit{Maximum features} is used to control the number of features from the original training set to use in the tree and are randomly selected and tried to get the best combination of features. \textit{Minimum  leaf samples} is used to control the number of samples at a leaf node. A small number will usually mean the tree is overfit to the training data, whereas a large number prevents the tree from learning the data optimally.
-\subsubsection{Random Forests} Additionally to the decision tree parameters, the Random Forests also used a parameter for the number of trees in the forest.
-\subsubsection{Support Vector Machines}
+\textit{Maximum depth} of the tree which is used to control the size of the tree to prevent overfitting. \textit{Maximum features} is used to control the number of features from the original training set to use in the tree and are randomly selected and tried to get the best combination of features. \textit{Minimum  leaf samples} is used to control the number of samples at a leaf node. A small number will usually mean the tree is overfitted to the training data, whereas a large number prevents the tree from learning the data optimally.
+\paragraph{Random Forests} Additionally to the decision tree parameters, the Random Forests also used a parameter for the number of trees in the forest.
+\paragraph{Support Vector Machines}
 The hyperparameters used for the Support Vector Machines include using different kernels, decision function shapes, degrees of polynomial to use, as described in Section 2.3.2.
 \subsection{Weka} 
-A popular open-source library written in Java which makes it suitable for exporting to an Android application is Weka. For the graph feature vectors a Weka Instance object has to be created for input into any of the Weka classifiers. An \textit{Instance} contains a set of \textit{Attribute} objects which represents one feature from the dataset. Classes are represented with a \textit{FastVector} object. \textit{Attributes} are populated with data from the dataset to create a training set. The classifier is then created with matching hyperparameters where available and then trained. Finally this classifier is serialised and saved into a file containing the models parameters and fitted weights. This file is then saved and transferred onto the Android application, where it is de-serialised whenever a classification needs to be made. 
+Weka is a popular open-source library written in Java which makes it suitable for exporting to an Android application. For the graph feature vectors a Weka Instance object has to be created for input into any of the Weka classifiers. An \textit{Instance} contains a set of \textit{Attribute} objects which represents one feature from the dataset. Classes are represented with a \textit{FastVector} object. \textit{Attributes} are populated with data from the dataset to create a training set. The classifier is then created with matching hyperparameters where available and then trained. Finally this classifier is serialised and saved into a file containing the models parameters and fitted weights. This file is then saved and transferred onto the Android application, where it is de-serialised whenever a classification needs to be made. 
 \subsection{TensorFlow}
-TensorFlow~\cite{tensorflow} is an open-source machine learning library that I used to implement a Neural Network. TensorFlow operates on a predefined graph containing the mathematical operations required by the program and runs in a session. The TensorFlow computational graph is described by its operations on Tensor objects. A node is added to the graph for each operation used. Edges between the nodes represent the data flow of the tensors through the graph. The advantage of this representation is that it provides an easy way of understanding dependencies between the units of the computational model. It defines a low-level programming model in which the data-flow graph is defined and a TensorFlow session is run to execute the operations defined by the graph. The graph structure allows for parallelism. By using explicit edges to represent dependencies between operations, it is easy for the system to identify operations that can execute in parallel. The input to the NN the training set is defined as a rank 2 tensor, where each row consists of the input features for a training example, and the number of rows is equal to the size of the train set. A rank is the number of dimensions of a tensor.\\
+TensorFlow~\cite{tensorflow} is an open-source machine learning library that I used for its popular Neural Network implementation. TensorFlow operates on a predefined graph containing the mathematical operations required by the program and runs in a session. The TensorFlow computational graph is described by its operations on Tensor objects. A node is added to the graph for each operation used. Edges between the nodes represent the data flow of the tensors through the graph. The advantage of this representation is that it provides an easy way of understanding dependencies between the units of the computational model. It defines a low-level programming model in which the data-flow graph is defined and a TensorFlow session is run to execute the operations defined by the graph. 
+
+
+The graph structure allows for parallelism. By using explicit edges to represent dependencies between operations, it is easy for the system to identify operations that can execute in parallel. The input to the NN the training set is defined as a rank 2 tensor, where each row consists of the input features for a training example. The number of rows is equal to the size of the train set. A rank is the number of dimensions of a tensor.\\
 
 
 The weights and biases are described as Variable objects that are trainable and maintain a persistent state across evaluations of the TensorFlow graph. Weights for each layer are represented as tensors of rank 2 and of type float32, while the biases are tensors of rank 1 and of type float32 and both are initialised to a standard normal distribution initially. It is sufficient to use float32 which is of lower precision than a 64 bit float due to faster computations and sufficient results. A layer is defined as a dictionary containing weights and biases associated with the layer and the size of its weights can be defined by the size of the number of neurons in the layer with the first layer of size as the number of features. 
@@ -788,7 +792,7 @@ The implementation of the CNN with filtering requires a graphs adjacency matrix,
 \subsection{Sub-graph Extraction}
 The most important \textit{N} nodes of the users' mobility graphs need to be extracted and the adjacency matrix of these nodes built. There are various metrics that define the importance of a node to the graph. These could include centrality measures such as edge or node betweenness centrality as described in Section 2.2.1. To extract a subgraph of the \textit{N} most important nodes the edge centralities of the graph is measured and the top \textit{N} most central nodes are chosen to be part of the subgraph.
 \subsection{Sub-graph Size}
-The problem of choosing the nodes \textit{N} to form the subgraph is important as all graphs with less than \textit{N} nodes are discarded since they do not contain enough information and this further increases the sparsity of the data available for use in the classifier. Intuitively, \textit{N} should represent the number of locations the user visits on a regular basis along with some visits to rarer locations that allow the graph to be used as a sensible representation of the different demographics, but choosing this arbitrarily is an ambiguous problem. To choose an appropriate value of \textit{ N}, the number of nodes in the subgraph, the distribution of the number of nodes in the graph dataset is extracted and \textit{N} was initially chosen as the 25th percentile of the number of nodes is extracted so 75\% of the data is kept. However, this removed a lot of information from the larger graphs by only keeping a small number of nodes and so later the median of the number of nodes in the graph dataset is kept. As seen in Figure \ref{fig:histogram} the distributions follow a decaying trend and each dataset needs a different value of \textit{N}.
+The problem of choosing the nodes \textit{N} to form the subgraph is important as all graphs with less than \textit{N} nodes are discarded since they do not contain enough information and this further increases the sparsity of the data available for use in the classifier. Intuitively, \textit{N} should represent the number of locations the user visits on a regular basis along with some visits to rarer locations that allow the graph to be used as a sensible representation of the different demographics, but choosing this arbitrarily is an ambiguous problem. To choose an appropriate value of \textit{ N}, the number of nodes in the subgraph, the distribution of the number of nodes in the graph dataset is extracted and \textit{N} was initially chosen as the 25th percentile of the number of nodes is extracted so that 75\% of the data is kept. However, this removed a lot of information from the larger graphs by only keeping a small number of nodes and so later the median of the number of nodes in the graph dataset is kept. As seen in Figure \ref{fig:histogram} the distributions follow a decaying trend and each dataset needs a different value of \textit{N}.
 \graphicspath{{images/}}
 \begin{figure}[H]
 \centering
@@ -799,7 +803,7 @@ The problem of choosing the nodes \textit{N} to form the subgraph is important a
 The CNN model is defined with a grid of parameters such as the learning rate, dropout probability, activation functions to use such as the ReLU as described in Section 2.3.5.3. The best of these are chosen using hyperparameter optimisation along with the graph signals, which are the nodes centrality measures, and the final model trained.
 \subsection{Neural Network}
 As an additional optional extension I implemented a multi-layered Neural Network to evaluate the differences with the popular TensorFlow implementation. To do this I implemented a Neural Network in Java and evaluated it.
-\subsubsection{Class Overview}
+\paragraph{Class Overview}
 The Neural Network is initialised to contain a specified structure of layers with a set number of neurons and a range of weights. The class overview is shown in Figure 3.7.
 \graphicspath{{images/}}
 \begin{figure}[H]
@@ -807,46 +811,47 @@ The Neural Network is initialised to contain a specified structure of layers wit
 \includegraphics[scale=0.18]{nn.png}
 \caption{A diagram of the Neural Network class showing the fields and methods, consisting of training and loading and saving of the network.}\label{fig:nn}
 \end{figure}
-\subsubsection{Training} 
+\paragraph{Training} 
 Batch training is used to create sections of the train dataset to update the weights to learn the hypothesis as it is faster than using the entire dataset.
 Firstly the data is fed forward through the network and derivatives calculated for the gradient descent in the backpropagation stage and the weights updated as described in Section 2.3.1. 
-\subsubsection{Hyperparameter Optimisation}
+\paragraph{Hyperparameter Optimisation}
 Random and grid search were implemented to determine the values of the initial weights and biases, the number of layers, neurons in each layer and learning rate. This is practical for our problem since the dataset is small enough to allow a large search space of parameters to be searched but may not be applicable towards larger datasets that can take many days to train. 
-\subsubsection{Testing}
+\paragraph{Testing}
 To test the Neural Network written I wrote unit tests for the different components to ensure it was doing what was expected. A commonly used test is the MNIST classification task which is an optical character recognition (OCR) task from a popular dataset of handwritten images. It is a common practice in to use the MNIST dataset as a benchmark for supervised learning algorithms~\cite{MNIST}.
-The MNIST dataset consists of images of handwritten characters from 0-9 and are 28x28 pixels in size. The purpose of using this dataset is to ensure the neural network can correctly classify this commonly used dataset into the 10 classes using a final set of 10 fully connected output neurons with the highest activation representing the class of the image. State-of-the-art models achieve close to 100\% accuracy. The results can be seen in Section 4.3.4.
-\subsubsection{Inferring}
-Once the weights have been updated a feature vector can then be propagated using the feed-forward method. This calculates the cross product between the weights and the vector. The final layer is a softmax layer to ensure the probabilities add to 1 as described in Section 2.3.1.6 and the highest valued neuron corresponds to the class inferred.
-\subsubsection{Saving}
-Another feature added is to save the network so that training can be done at any time and so there is no need to retrain the network from scratch every time to test it. The Java serialisable interface makes this particularly effortless as it allows the Neural Network objects to be stored into a file that can be read back as a network and so can be retrained it.
-
+The MNIST dataset consists of images of handwritten characters from 0-9 and are 28x28 pixels in size. The purpose of using this dataset is to ensure the neural network can correctly classify this commonly used dataset into the 10 classes using a final set of 10 fully connected output neurons with the highest activation representing the class of the image. State-of-the-art models achieve close to 100\% accuracy. The results can be seen in Section 4.3.3.
+\paragraph{Inferring}
+Once the weights have been updated a feature vector can then be propagated using the feed-forward method. This calculates the cross product between the weights and the vector. The final layer is a softmax layer to ensure the probabilities add to 1 as described in Section 2.3.5.6 and the highest valued neuron corresponds to the class inferred.
+\paragraph{Saving}
+Another feature added is to save the network so that training can be done at any time and so there is no need to retrain the network from scratch every time to test it. The Java serialisable interface makes this particularly effortless as it allows the Neural Network objects to be stored on a file that can be de-serialised back as a Java Object, which allows it to be retrained and used to make inferences in the future.
 \section{Android Application}
-% on-device analytics - all things are run locally on device. Mention preparation things used to build the app and the requirements. 
-I incorporated the best performing machine learning model into an Android application. This application tracks the users' location to build mobility graphs locally on the device and then infer one of the classes the model is trained on. This has far-reaching consequences as it could be placed in mobile operating systems to track changes in users' behaviours and be able to detect anomalies from a change in the users' location patterns. This could be an early indicator to neurological diseases, which could be detected earlier without the need of a doctor or a formal diagnosis.
+I incorporated the best performing classifier (Random Forest) into an Android application. This application tracks the users' location to build mobility graphs locally on the device and then infer one of the classes the model is trained on. This has far-reaching consequences as it could be placed in mobile operating systems to track changes in users' behaviours and be able to detect anomalies from a change in the users' location patterns. This could be an early indicator to neurological diseases, which could be detected earlier without the need of a doctor or a formal diagnosis.
 \subsection{Location Data Collection} 
 To continually get location data throughout the day (even when the application is not open) a background service needs to be running which contains an alarm to schedule the collection of the location data every 30 seconds. Continuous sensing of location data is expensive in terms of battery consumption and CPU utilisation. To save battery life, Adaptive Duty Cycling is used to monitor when the user is stationary to avoid using sensors and CPU unnecessarily to waste battery and use the last collected location value instead. 
 Location-time pairs are saved on a file on the device. The original application requires a user to be given an account to authenticate them, this had to be modified to prevent sensitive location data from being sent to the server. A new file is created for every week to allow a weekly graph of the data to be created and inferred. 
 \subsection{Local Inferences} 
-An \textit{Activity} containing the button for inferencing is started when the application is opened. A button is clicked to start the inference process by applying the DBSCAN algorithm to the location-time data collected to form the nodes. The edge list is created using the timestamps associated with the first and last value of time for the clusters. The graph features are then extracted from the edge list and the vector of features. The pre-trained exported random forest model is de-serialised on the device to infer the users' class and show the result on a new View.
+An \textit{Activity} containing the button for inferencing is started when the application is opened. A button is used to start an \textit{Intent} which allows the inference to take place. The inference process starts by constructing the graph feature vector. The DBSCAN algorithm is applied to the location-time data collected to form the nodes. The edge list is created using the timestamps associated with the first and last value of time for the clusters. The graph features are then extracted from the edge list and the features vector is created. 
+
+
+The feature vector can be fed into the Random Forest classifier to infer the class. The pre-trained Random Forest model is de-serialised from its stored location on the device and the users' mobility-graph feature-vector is used to infer the users' class. The resulting class information is shown on a new \textit{View} on the device for the user to analyse. 
 \chapter{Evaluation}
-In this chapter, I describe the metrics used to evaluate the algorithms and proceed to calculate the results. I present the performance of the existing language models that I implemented. I also discuss the trade-off's faced when employing those models on a mobile device. 
+In this chapter, I describe the metrics used to evaluate the algorithms and the results obtained. I present the performance of the classifiers used. I also discuss the performance of the Android application.
 \section{Success Criteria}
 Referring back to the success requirements set out in the project proposal:
 \begin{itemize}
-\item \textit{Training, optimising, and evaluating the performance of the supervised machine-learning algorithms on features extracted from mobility graphs.}\\
+\item \textit{Training, optimising, and evaluating the performance of the supervised machine-learning algorithms on mobility graphs.}\\
 This criterion was exceeded, I was able to implement and apply my own neural network as extension to the datasets achieving similar results to the other learning algorithms. Many different types of mobility graphs were constructed as extensions surpassing the initial requirements.
 \item \textit{Applying the CNN algorithm to the mobility graphs constructed from raw location data to classify the user into their demographic class. Evaluating the models quantitatively, then trained and ported the best performing of these onto the Android application.}\\
-The CNN algorithm for graphs was applied successfully, and highlighted the  performance differences to the other classifiers. The evaluation of which is described in Section 4.3. 
-\item  \textit{Evaluated the models quantitatively, then trained and ported the best performing of these onto the Android application.}\\
+The CNN algorithm for graphs was applied successfully, and highlighted the  performance differences with respect to the other classifiers. The evaluation of this is described in Section 4.3. 
+\item  \textit{Evaluating the models quantitatively, then training and porting the best performing of these onto the Android application.}\\
 The algorithms have been evaluated in Section 4.3 and the Random Forest algorithm has been chosen as explained in Section 4.3.2. It has been trained on the EmotionSense dataset and ported onto the Android application.
 \item  \textit{Implementing an Android application which can extract mobility graphs from the users location and infer the demographic class of the user locally on the device.}\\
-The application has been tested to successfully work as described in Section 4.4. It is functional as it can apply the Random Forest algorithm on the feature vector extracted from the constructed mobility graphs locally on-device.
+The application has been tested to successfully work as described in Section 4.4. It is functional as it can apply the Random Forest algorithm on the feature vector extracted from the constructed mobility graphs locally on the device.
 \end{itemize}
 Meeting these criterias shows the usefulness of the application as a framework for future on-device machine learning tasks based on efficient location gathering, feature extraction and inferences.
 \subsection{Extensions}
-As extension my project proposal suggested to explore different constructions of graphs from the raw location data. This has been accomplished as a necessity in the implementation of the DBSCAN algorithm for clustering nodes. I was also able to create a synthetic data extension which helped evaluate the algorithms using known statistically different graphs. Another extension was to try different algorithms such as Graph2Vec~\cite{graph2vec} other CNN architectures, but I determined that time was better spent implementing my own Neural Network in Java evaluated against the TensorFlow model. 
+As extension my project proposal suggested to explore different constructions of graphs from the raw location data. This has been accomplished as a necessity in the implementation of the DBSCAN algorithm for clustering nodes. I was also able to create a synthetic data as an extension which helped evaluate the algorithms using known statistically different graphs. Another extension was to try different algorithms such as Graph2Vec~\cite{graph2vec} other CNN architectures, but I determined that time was better spent implementing my own Neural Network in Java evaluated against the TensorFlow model. 
 \section{Evaluation Methodology}
-In the context of classification test accuracy is not enough to reliably compare the performance of algorithms. Classification accuracy is the number of correct predictions made divided by the total number of predictions made, but this does not take into account the distribution of classes in the dataset. The accuracy paradox occurs when a problem with a large class imbalance, then a model can predict the value of the majority class and still achieve a high classification accuracy. Measures such as precision, recall and F1 are used instead. \\
+In the context of classification, test accuracy is not enough to reliably compare the performance of algorithms. Classification accuracy is the number of correct predictions made divided by the total number of predictions made, but this does not take into account the distribution of classes in the dataset. The accuracy paradox occurs when a problem with a large class imbalance, then a model can predict the value of the majority class and still achieve a high classification accuracy. Measures such as precision, recall and F1 are used instead. \\
 % \textbf{Confusion matrix:} For a binary classifier it is a matrix containing the number of predicted classes to the actual class. 
 % If we had a classifier predicting positive and negative. A perfect classifier would correctly predict all classes and so would only contain true negatives and true positives. Incorrect predictions are clearly broken down into the two other cells. False Negatives are predictions that the classifier has marked as negative but are positive, whilst false positives are when the classifier incorrectly predicts a training sample as positive.
 % This is useful as it presents both the class distribution in the data and the classifiers predicted class distribution with a breakdown of error types.\\
@@ -875,7 +880,7 @@ $$
 \item \textbf{Receiver Operating Characteristic Curve} -- The ROC curve is the true positive rate against the false positive rate at various threshold settings. The best possible classifier would yield a point in the upper left corner representing no false negatives and all true positives. A random guess would be a diagonal line from the origin to the top right corner as a random coin flip would be placed in the centre of the line. 
 
 \item \textbf{Statistical Hypothesis Testing}\\
-We can use a hypothesis test to deem a classifier to be statistically different from another. We propose a null hypothesis which states that there is no difference between the two classifiers, along with an alternative hypothesis which states there is a difference between the two. We also select a significance level, which is a probability threshold below which the null hypothesis will be rejected. Using a 2 sample t-test we can compare  two classifiers in a pair-wise method by determining the probability that one classifier is outperforming the other. If the probability is smaller than the significance level we can reject the null hypothesis as this indicates that this is an unlikely event. Here a few metrics are presented for evaluation.
+We can use a hypothesis test to deem a classifier to be statistically different from another. We propose a null hypothesis which states that there is no difference between the two classifiers, along with an alternative hypothesis which states there is a difference between the two. We also select a significance level, which is a probability threshold below which the null hypothesis will be rejected. Using a 2 sample t-test we can compare  two classifiers in a pair-wise method by determining the probability that one classifier is outperforming the other. If the probability is smaller than the significance level we can reject the null hypothesis as this indicates that this is an unlikely event. 
 \end{itemize}
 \section{Results}
 This section contains the results from the application of the classifiers to the mobility graphs constructed.
@@ -930,7 +935,7 @@ Classifier & Naive Bayes& CNN&SVM & Decision Trees & Random Forest& TF NN\\  \hl
 \label{table:results4}
 \end{table}
 \end{center}
-Results show that the SVM performs the best for the data from the datasets, however the random forest performs better on the synthetic dataset. However the F1 score is lower than the Java NN as it predicts a single class more often than not. \\
+Results show that the SVM performs the best for the data from the datasets. However, the F1 score is lower than the Java NN as it predicts a single class more often. \\
 The Java NN classifier is very selective, and does not classify many things to be of one class because we have low recall, but a very high precision. The CNN did not seem to perform well using the location data either; this could be due to the fact that the graphs are not statistically independent.
 
 \subsubsection{ROC Curve}
@@ -960,9 +965,9 @@ Classifier&NB&CNN&SVM&DT&RF&TF NN&Java NN\\  \hline
 \label{table:results1}
 \end{table}
 \end{center}
-Using the Naive Bayes algorithm as a baseline the other algorithms perform better. The Random Forest classifier performs the best consistently across the accuracy metrics. Random forests are constructed by combining several different independent classifiers, which identifies the best features to use from the random subset of available features. Since we chose the features from Section 2.2.1 manually, not all of the features could be useful for the classification of graphs therefore the random forest algorithm would have been able to discard these and used the best features to use for the classification of the graphs. Random forests also do not overfit to the data as much as decision trees, which perhaps explain the difference in performance between the two.
+The Random Forest classifier performs the best consistently across the accuracy metrics. Random forests are constructed by combining several different independent classifiers, which identifies the best features to use from the random subset of available features. Since we chose the features from Section 2.2.1 manually, not all of the features could be useful for the classification of graphs therefore the random forest algorithm would have been able to discard these and used the best features to use for the classification of the graphs. Random forests also do not overfit to the data as much as decision trees, which perhaps explain the difference in performance between the two.
 
-The SVM and Neural Networks performed similarly well and were able to infer the hypothesis function to map the graph features to the class. It is understandable the TensorFlow implementation did better than the Java; the full comparison can be seen in Section 4.3.3.
+The SVM and Neural Networks performed similarly well and were able to infer the hypothesis function to map the graph features to the class. It is understandable the TensorFlow implementation did better than the Java NN as it implements more complex techniques to maximise its classification effectiveness; the full comparison can be seen in Section 4.3.3.
 The CNN for graphs performs poorly on these graphs. This could be because the graphs did not contain enough features for classification to take place due to the small size of each graph and the small dataset sizes. Feature extractions used with the other algorithms performed well. 
 \begin{center}
 \begin{table}[H]
@@ -1000,7 +1005,7 @@ Java NN & Weights and biases, Number of Layers: 19,15,5,2\\
 
 
 \subsection{Evaluation of the Neural Network Implementation}
-I tested the Neural Network implementation with a copy from the TensorFlow library. Both implementations used gradient descent with a learning rate of 0.05, 30 epochs to train and used a 80:20 split for test to train data to keep a fair test. The layers sizes chosen are 784,70,35,10 for each neural network. Table \ref{table:results5} shows the test accuracy.
+I tested the Neural Network implementation with a copy from the TensorFlow library. Both implementations used gradient descent with a learning rate of 0.05, 30 epochs to train and used a 80:20 split for test to train data to keep a fair test. The layers sizes chosen are 784,70,35,10 for each neural network. Table \ref{table:results5} shows the result accuracies measured.
 \begin{center}
 \begin{table}[H]
 \begin{tabular}{|c|c|c|} 
@@ -1030,7 +1035,7 @@ Classifier & Java NN / TensorFlow NN\\ \hline
 \caption{Table showing the p-values from the MNIST dataset t-test.}
 \label{table:results4p}
 \end{table}
-As seen in Table \ref{table:results4p} the TensorFlow model performed statistically better than the Java implementation differences in the technical complexity in between the two implementations.
+As seen in Table \ref{table:results4p}, the TensorFlow model performed statistically better than the Java implementation due to differences in the technical complexity in between the two implementations.
 \graphicspath{{images/}}
 \begin{figure}[H]
 \centering
@@ -1042,7 +1047,7 @@ Figure \ref{fig:mnist} shows the model converges quickly to a low mean squared e
 % Add intro sentence to say why measuring, eg for users battery performance, usability. 
 The memory and CPU utilization from the Android Application was retrieved from the Android profiler. The Android profiler is a tool to provide real time data of the applications performance~\cite{profiler}. We get the usage statistics from the different stages of the classification pipeline, from the construction of the edge lists from the location data, the feature extraction from the edge list and then the classification of feature vector constructed. Battery consumption is not an issue since the inference only needs to occur once a week and only executes for around 15 seconds. Also, the device can be plugged in whilst the inference takes place as it can be made anywhere. 
 \subsection{Result}
-Here I show the screen shots of the Android application to infer the users' occupation class.
+Figure 4.3 shows the screen-shots of the Android application to infer the users' occupation class. Since its primary use is as a background service to make inferences based on the users' location patterns the front-end user interface is not of concern.
 \begin{figure}[H]
 \centering
 \graphicspath{{images/}}
@@ -1053,35 +1058,36 @@ Here I show the screen shots of the Android application to infer the users' occu
 \label{fig:screenshots}
 \end{figure}
 \subsection{CPU Utilisation}
+The inference takes around 15 seconds to complete for all the stages from building the graph to inference. It is not possible to generate the graph consistently throughout the week since some locations will be discarded from the final graph later on if not visited enough. Also the application is limited to 20\% of the CPU and so is not exceeding its share of the processing power and is not detrimental to the performance of the phone whilst using the application. The first small spike (1) is the opening of the application followed by three stages of the inference: building the graph edge list (2), edge feature extraction (3) then inference (4) as seen by the three different blocks in the am.cl.loclogger thread. Figure 4.4 shows the Android Profilers view of the resources used by the application.
 \graphicspath{{images/}}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.6]{time2.png}
 \caption{CPU utilisation graph showing the different stages of the application.}\label{fig:cpu}
 \end{figure}
-The inference takes around 15 seconds to complete for all the stages from building the graph to inference. It is not possible to generate the graph consistently throughout the week since some locations will be discarded from the final graph later on if not visited enough. Also the application is limited to 20\% of the CPU and so is not exceeding its share of the processing power and is not detrimental to the performance of the phone whilst using the application. The first small spike (1) is the opening of the application followed by three stages of the inference: building the graph edge list (2), edge feature extraction (3) then inference (4) as seen by the three different blocks in the am.cl.loclogger thread
 \subsection{Memory Utilisation}
+Figure 4.5 shows that the memory usage is less than 96MB. Given that most recent Android phones have at least 1GB of RAM the application should work on a whole range of phones. A large amount of garbage collection is seen after the edge list has been used, after creating the edge features and after the creating the WEKA feature vector. The de-serialisation of the random forest model also uses a lot of the memory utilised.
+
 \graphicspath{{images/}}
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.7]{memory.png}
+\includegraphics[scale=0.65]{memory.png}
 \caption{A graph of the memory consumption of application opening and inference tasks.}\label{fig:memory}
 \end{figure}
-Figure 4.5 shows that the memory usage is less than 96MB. Given that most recent Android phones have at least 1GB of RAM the application should work on a whole range of phones. There is a large amount of garbage collection that can be seen after the graph edge list has been used, after creating the edge features and after the creating the WEKA feature vector. The de-serialisation of the random forest model then uses up a large amount of memory.
 \chapter{Conclusion}
-The project was a success, I designed, built and evaluated mobility graphs, several supervised machine learning algorithms and an Android application to meet the success criterias and additional extensions set out earlier. 
+The project was a success. I designed, built and evaluated mobility graphs, several supervised machine learning algorithms and an Android application to meet the success criterias and additional extensions set out earlier. 
 \section{Results}
 The project success criterias were successfully achieved and surpassed by implementing additional extensions, such as the Neural Network implementation.
 % The results obtained highlight that the use of machine learning models to study mobility graphs could be more successful. 
 The use of feature extraction on synthetic graph data to make predictions based on the graph edge lists was evaluated to be significant. This indicates that it is possible to classify statistically independent graphs, although the graphs from the spatio-temporal datasets were not of the highest quality, to allow for a high separation accuracy. 
-The project provides a novel framework for on-device machine learning based on mobility graphs constructed. This can be extended by simply replacing the classifier to infer other labels to solve different problems. As phones become more powerful and employ dedicated chips for AI tasks we will need new types of application frameworks to exploit mobile sensor data to solve a new class of problems and this project successfully demonstrates the potential of on-device mobility-graphs classification.
+The project provides a novel framework for on-device machine learning based on mobility graphs constructed. This can be extended by simply replacing the classifier to infer other labels to solve different problems. As phones become more powerful and employ dedicated chips for AI tasks, we will need new types of application frameworks to exploit mobile sensor data to solve a new class of problems. This project successfully demonstrates the potential of on-device mobility-graphs classification.
 \section{Lessons Learned}
 This project has given me the opportunity to get familiar with the theoretical and practical sides of machine learning with the exploration and evaluation of different classifiers applied to a unique, unfamiliar type of data in graphs.
 An important lesson I will take away from is to look for ways of shortening the time between training and evaluating the models, since training with incorrect parameters or quality of data could be spotted and improved earlier.
 Using the iterative development model for this process proved to be crucial. If I were to do the project again, I would have allowed for even more time to try out different techniques to improve quality of the data and the models. This is particularly important for machine-learning projects, where there usually is not a pre-defined sequence of steps.
 \section{Further Work}
 % There was a large variance between different tests of the algorithms and so the general trends in the model's behaviour could not be easily reasoned about. 
-Further work would go towards improving the quality of the data to make improvements to the accuracies of the models. These improvements could come from adding more information to the mobility graphs since a lot of data is removed in the clustering stage; the time information and rare visits are ignored when the locations are clustered.
+Further work would go towards improving the quality of the data to increase the accuracies of the models. These improvements could come from adding more information to the mobility graphs since a lot of data is removed in the clustering stage. The time information and rare visits are also ignored when the locations are clustered.
 I would also carry out the other extension specified of creating a distributed machine-learning \cite{distributedml} platform, itself a large undertaking. Finally, more interesting datasets could be applied to the existing algorithms and application easily to infer more interesting classes, such as early Alzheimer's detection. 
 \addcontentsline{toc}{chapter}{Bibliography}
 \bibliographystyle{abbrv}
@@ -1101,6 +1107,9 @@ for Experimental Social Psychology Research.
 In Proceedings of the 12th ACM International Conference on Ubiquitous Computing (Ubicomp 2010). Copenhagen, Denmark.
 \bibitem{erdos} Erdős, P.; Rényi, A. (1959). "On Random Graphs. I". Publicationes Mathematicae.
 \bibitem{cnn} CNN image Source. 24/4/2018. http://adventuresinmachinelearning.com/convolutional-neural-networks-tutorial-tensorflow/
+\bibitem{WEKA} WEKA library source. 24/4/2018.
+https://www.cs.waikato.ac.nz/ml/weka/
+\bibitem{JUNG} JUNG library source. 24/4/2018. http://jung.sourceforge.net/
 \bibitem{tensorflow}
 Abadi, M., Agarwal, A., Barham, P., Brevdo, E., Chen, Z., Citro, C., Corrado, G.S., Davis, A., Dean, J., Devin, M., \& Ghemawat, S. (2016). Tensorflow: Large-scale machine learning on heterogeneous distributed systems. arXiv preprint arXiv:1603.04467.
 \bibitem{scikitlearn} Lars Buitinck, Gilles Louppe, Mathieu Blondel, Fabian Pedregosa, Andreas Mueller, Olivier Grisel, Vlad Niculae, Peter Prettenhofer, Alexandre Gramfort, Jaques Grobler, Robert Layton, Jake Vanderplas, Arnaud Joly, Brian Holt, Gaël Varoquaux. API design for machine learning software: experiences from the scikit-learn project. arXiv:1309.0238.
@@ -1123,7 +1132,7 @@ graph2vec: Learning Distributed Representations of Graphs. arXiv:1707.05005
 \bibitem{distributedml} 
 Shokri, R., \& Shmatikov, V. (2015, October). Privacy-preserving deep learning. In Proceedings of the 22nd ACM SIGSAC conference on computer and communications security (pp. 1310-1321). ACM.
 \end{thebibliography}
-% \appendix
+\appendix
 % \printthesisindex
 \begin{appendices}
 \chapter{Project Proposal}
@@ -1162,7 +1171,7 @@ I will use an existing script to extract graphs from raw GPS data from the Nokia
 \begin{itemize}
 \item Android SDK: Development environment for Android. I am already familiar with this from previous projects and the group project.
 \item TensorFlow \cite{tensorflow}: Open source deep learning library, to assist in the implementation of the algorithms and used in the graph CNN paper. TensorFlow is widely used in industry and research as the CNN paper uses TensorFlow \cite{CNN1} so my understanding of TensorFlow is paramount to understand and modification of the open source implementation, it also allows a model to be ported to Android. 
-\item Scikit-learn \cite{scikitlearn}: Another machine learning library. Will allow experimenting with more algorithms and are optimized for faster training and would work better than an implementation from scratch, also contains API for porting to Android. This will help meet my success criterias earlier and possibly allow the extensions to be implemented.\end{itemize}
+\item Scikit-learn \cite{scikitlearn}: Another machine learning library. Will allow experimenting with more algorithms and are optimised for faster training and would work better than an implementation from scratch, also contains API for porting to Android. This will help meet my success criterias earlier and possibly allow the extensions to be implemented.\end{itemize}
 \section*{Resources required}
 The project will be carried out on my personal laptop, a mid 2014 MacBook Pro running macOS Sierra. However, the computation will be done in the server \textit{pizza.cl.cam.ac.uk} that I will be given access to for the use of the restricted dataset\cite{dataset}. I also have my own Android Nexus 5X smart phone which I can use to test and build the application. If it breaks I will get a new Android phone.\\
 The dataset is available only for use on this server, I have permission to access the server and dataset from my supervisor and through the system administrators at the Computer Lab. The University has an agreement in place to use the data until December 2018. I have signed a Confidentiality Disclosure Agreement with Idiap Research Institute for the use of the dataset and adhere to the strict rules about the restricted data and its privacy.
@@ -1184,8 +1193,8 @@ The project breaks down into the following sub-projects:
 \section*{Success criteria}
  At the end of the project I should have completed the following criteria to allow the project to be considered successful:
 \begin{enumerate}
-\item Applied, optimized and tested the graph CNN algorithm to the location graphs constructed from raw location data to classify the user into their demographic class\cite{CNN1}.
-\item Trained, optimized, and benchmarked the performance of the supervised machine learning algorithms on features extracted from mobility graphs.
+\item Applied, optimised and tested the graph CNN algorithm to the location graphs constructed from raw location data to classify the user into their demographic class\cite{CNN1}.
+\item Trained, optimised, and benchmarked the performance of the supervised machine learning algorithms on features extracted from mobility graphs.
 \item Evaluated the models quantitatively and chosen the most appropriate of these and pre-train the model and port into the Android application. 
 \item Have an Android application which can construct mobility graphs from the users location and infer the demographic class of the user locally using the model.
 
@@ -1218,7 +1227,7 @@ Further extensions could include creating a distributed machine learning model\c
 - Modify the Graph CNN algorithm for the location graph dataset.\\
 \textbf{Milestones:} Started working on training model for the graph CNN.
 \item \textbf{Christmas vacation weeks 0-2 | December 2nd - 15th}\\
-- Continue work on the graph CNN and train, optimize, benchmark, evaluate.\\
+- Continue work on the graph CNN and train, optimise, benchmark, evaluate.\\
 - Extract Features from graphs for traditional supervised learning tasks and make test, train, validation dataset.\\
 - Start writing up the Introduction chapter.\\
 \textbf{Milestones: }Finished and have a working trained model for the graph CNN and so have met the first success criteria. Have working training, test, validation datasets to allow development of machine learning algorithms.
